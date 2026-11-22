@@ -1,0 +1,2546 @@
+================================================================================
+ENTRANCE APP - COMPLETE HTML/CSS TEMPLATES
+================================================================================
+Design system: Modern, mobile-first, consistent across all pages
+Primary color: #2563eb
+Background: #f1f5f9 / #f8fafc
+Card: #ffffff
+Text: #0f172a
+Muted: #64748b
+Border: #e2e8f0
+
+================================================================================
+1. LOGIN PAGE
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Entrance App</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --error: #dc2626;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 32px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--primary);
+      color: white;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.15s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .links {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <div class="logo-icon">E</div>
+      <h1>Welcome back</h1>
+      <p class="subtitle">Sign in to your entrance</p>
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required />
+      </div>
+
+      <button type="submit" class="btn">Sign in</button>
+    </form>
+
+    <div class="links">
+      <a href="#">Forgot password?</a>
+      <div class="divider">or</div>
+      <a href="register.html">Create an account</a>
+    </div>
+  </div>
+</body>
+</html>
+
+
+================================================================================
+2. REGISTER PAGE
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register – Entrance App</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 440px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 32px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--primary);
+      color: white;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: white;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .choice-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .choice-card {
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .choice-card:hover {
+      border-color: #93c5fd;
+    }
+
+    .choice-card.active {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+
+    .choice-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .choice-card span {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .links {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">
+      <div class="logo-icon">E</div>
+      <h1>Create account</h1>
+      <p class="subtitle">Join or create an entrance</p>
+    </div>
+
+    <form>
+      <div class="row">
+        <div class="form-group">
+          <label for="firstName">First name</label>
+          <input type="text" id="firstName" required />
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last name</label>
+          <input type="text" id="lastName" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="At least 8 characters" required />
+      </div>
+
+      <div class="form-group">
+        <label for="apartment">Apartment / Floor</label>
+        <input type="text" id="apartment" placeholder="e.g. 4B or Floor 3" />
+      </div>
+
+      <p style="font-size: 0.875rem; font-weight: 500; margin-bottom: 10px;">How do you want to join?</p>
+
+      <div class="choice-cards">
+        <div class="choice-card active" onclick="selectChoice(this, 'invite')">
+          <strong>Join with code</strong>
+          <span>I have an invite</span>
+        </div>
+        <div class="choice-card" onclick="selectChoice(this, 'create')">
+          <strong>Create entrance</strong>
+          <span>I'm the first one</span>
+        </div>
+      </div>
+
+      <div id="inviteSection">
+        <div class="form-group">
+          <label for="inviteCode">Invite code</label>
+          <input type="text" id="inviteCode" placeholder="e.g. ULZ-4X9K" />
+        </div>
+      </div>
+
+      <div id="createSection" class="hidden">
+        <div class="form-group">
+          <label for="entranceName">Entrance name</label>
+          <input type="text" id="entranceName" placeholder="e.g. Entrance 3 – Beogradska 12" />
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Create account</button>
+    </form>
+
+    <div class="links">
+      Already have an account? <a href="login.html">Sign in</a>
+    </div>
+  </div>
+
+  <script>
+    function selectChoice(el, type) {
+      document.querySelectorAll('.choice-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+
+      document.getElementById('inviteSection').classList.toggle('hidden', type !== 'invite');
+      document.getElementById('createSection').classList.toggle('hidden', type !== 'create');
+    }
+  </script>
+</body>
+</html>
+
+
+================================================================================
+3. PENDING APPROVAL PAGE
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pending Approval – Entrance App</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --warning: #d97706;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      background: #fef3c7;
+      color: var(--warning);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .info-box {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      margin: 28px 0;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">⏳</div>
+    <h1>Waiting for approval</h1>
+    <p>Your request to join the entrance has been sent.</p>
+    <p>An entrance admin needs to approve your account before you can continue.</p>
+
+    <div class="info-box">
+      <strong>What happens next?</strong>
+      You’ll receive a notification once your request is approved. This usually takes a few minutes to a few hours.
+    </div>
+
+    <a href="#" class="btn">Refresh status</a>
+    <br />
+    <button class="btn-secondary">Sign out</button>
+  </div>
+</body>
+</html>
+
+
+================================================================================
+4. OFFLINE FALLBACK PAGE
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline – Entrance App</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 380px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      background: #e0e7ff;
+      color: var(--primary);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📡</div>
+    <h1>You're offline</h1>
+    <p>It looks like you’ve lost your internet connection. Some features may be unavailable until you’re back online.</p>
+    <button class="btn" onclick="location.reload()">Try again</button>
+  </div>
+</body>
+</html>
+
+
+================================================================================
+5. 404 / ERROR PAGE
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found – Entrance App</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      width: 100%;
+      max-width: 380px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .error-code {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #e2e8f0;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="error-code">404</div>
+    <h1>Page not found</h1>
+    <p>The page you’re looking for doesn’t exist or has been moved.</p>
+    <a href="/" class="btn">Go to homepage</a>
+  </div>
+</body>
+</html>
+
+
+================================================================================
+6. APP SHELL (Top bar + Bottom nav / Sidebar)
+================================================================================
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Shell – Entrance App</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --sidebar-width: 240px;
+      --topbar-height: 56px;
+      --bottomnav-height: 64px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ========== TOP BAR ========== */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--topbar-height);
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-small {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .entrance-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .icon-btn:hover {
+      background: #f1f5f9;
+    }
+
+    .badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 16px;
+      height: 16px;
+      background: #ef4444;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ========== SIDEBAR (Desktop) ========== */
+    .sidebar {
+      display: none;
+      position: fixed;
+      top: var(--topbar-height);
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar-width);
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 16px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      transition: background 0.15s;
+    }
+
+    .nav-item:hover {
+      background: #f1f5f9;
+    }
+
+    .nav-item.active {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+
+    .nav-item span.icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      margin-top: var(--topbar-height);
+      padding: 16px;
+      padding-bottom: calc(var(--bottomnav-height) + 16px);
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ========== BOTTOM NAV (Mobile) ========== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--bottomnav-height);
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .bottom-nav a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .bottom-nav a.active {
+      color: var(--primary);
+    }
+
+    .bottom-nav .icon {
+      font-size: 22px;
+    }
+
+    /* Desktop adjustments */
+    @media (min-width: 900px) {
+      .sidebar {
+        display: block;
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+
+      .main {
+        margin-left: var(--sidebar-width);
+        max-width: 720px;
+        padding: 24px;
+        padding-bottom: 24px;
+      }
+
+      .topbar {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-small">E</div>
+      <div class="entrance-name">Entrance 3 · Beogradska 12</div>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" title="Notifications">
+        🔔
+        <span class="badge">3</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR (Desktop) -->
+  <aside class="sidebar">
+    <a href="#" class="nav-item active"><span class="icon">🏠</span> Feed</a>
+    <a href="#" class="nav-item"><span class="icon">💬</span> Chat</a>
+    <a href="#" class="nav-item"><span class="icon">📊</span> Polls</a>
+    <a href="#" class="nav-item"><span class="icon">👥</span> Residents</a>
+    <a href="#" class="nav-item"><span class="icon">👤</span> My Profile</a>
+    <a href="#" class="nav-item"><span class="icon">⚙️</span> Admin</a>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="main">
+    <!-- Page content goes here -->
+    <p style="color: var(--muted); text-align: center; padding: 40px 0;">
+      Content area – drop any page template below here
+    </p>
+  </main>
+
+  <!-- BOTTOM NAV (Mobile) -->
+  <nav class="bottom-nav">
+    <a href="#" class="active">
+      <span class="icon">🏠</span>
+      Feed
+    </a>
+    <a href="#">
+      <span class="icon">💬</span>
+      Chat
+    </a>
+    <a href="#">
+      <span class="icon">📊</span>
+      Polls
+    </a>
+    <a href="#">
+      <span class="icon">👥</span>
+      Residents
+    </a>
+    <a href="#">
+      <span class="icon">👤</span>
+      Profile
+    </a>
+  </nav>
+
+</body>
+</html>
+
+
+================================================================================
+7. FEED PAGE (place inside .main of App Shell)
+================================================================================
+
+<style>
+  .feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .feed-header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .post-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px 10px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    object-fit: cover;
+  }
+
+  .post-meta {
+    flex: 1;
+  }
+
+  .post-author {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .post-time {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .post-body {
+    padding: 0 16px 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .post-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .post-images img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  .post-images.single {
+    grid-template-columns: 1fr;
+  }
+
+  .post-images.single img {
+    aspect-ratio: 16/10;
+  }
+
+  .post-actions {
+    display: flex;
+    gap: 16px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .post-actions button {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .post-actions button:hover {
+    color: var(--primary);
+  }
+</style>
+
+<div class="feed-header">
+  <h1>Feed</h1>
+  <button class="btn-primary">＋ New post</button>
+</div>
+
+<!-- Post 1 -->
+<article class="post-card">
+  <div class="post-header">
+    <img class="avatar" src="https://i.pravatar.cc/80?img=12" alt="" />
+    <div class="post-meta">
+      <div class="post-author">Ana Marković</div>
+      <div class="post-time">2 hours ago · Floor 4</div>
+    </div>
+  </div>
+  <div class="post-body">
+    Does anyone have a spare parking card? Mine stopped working this morning 😅
+  </div>
+  <div class="post-actions">
+    <button>❤️ 8</button>
+    <button>💬 3</button>
+  </div>
+</article>
+
+<!-- Post 2 with images -->
+<article class="post-card">
+  <div class="post-header">
+    <img class="avatar" src="https://i.pravatar.cc/80?img=33" alt="" />
+    <div class="post-meta">
+      <div class="post-author">Marko Jovanović</div>
+      <div class="post-time">Yesterday · Floor 2</div>
+    </div>
+  </div>
+  <div class="post-body">
+    New plants in the hallway look great! Thanks to whoever arranged this 🌱
+  </div>
+  <div class="post-images">
+    <img src="https://picsum.photos/400/400?random=1" alt="" />
+    <img src="https://picsum.photos/400/400?random=2" alt="" />
+  </div>
+  <div class="post-actions">
+    <button>❤️ 15</button>
+    <button>💬 6</button>
+  </div>
+</article>
+
+
+================================================================================
+8. POST DETAIL (Bottom Sheet / Modal)
+================================================================================
+
+<style>
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    z-index: 200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .bottom-sheet {
+    background: var(--card);
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    border-radius: 20px 20px 0 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sheet-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+
+  .sheet-body {
+    overflow-y: auto;
+    flex: 1;
+    padding: 16px;
+  }
+
+  .comment {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .comment .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    flex-shrink: 0;
+  }
+
+  .comment-content {
+    flex: 1;
+  }
+
+  .comment-author {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .comment-text {
+    font-size: 0.9rem;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .comment-time {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .comment-input-bar {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  .comment-input-bar input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+
+  .comment-input-bar button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="overlay">
+  <div class="bottom-sheet">
+    <div class="sheet-header">
+      <h2>Comments</h2>
+      <button class="close-btn">✕</button>
+    </div>
+
+    <div class="sheet-body">
+      <!-- Original post summary -->
+      <div style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border);">
+        <div style="display:flex; gap:10px; margin-bottom:8px;">
+          <img class="avatar" src="https://i.pravatar.cc/80?img=12" style="width:36px;height:36px;border-radius:50%;" />
+          <div>
+            <div style="font-weight:600;font-size:0.9rem;">Ana Marković</div>
+            <div style="font-size:0.8rem;color:var(--muted);">2 hours ago</div>
+          </div>
+        </div>
+        <p style="font-size:0.95rem;">Does anyone have a spare parking card? Mine stopped working this morning 😅</p>
+      </div>
+
+      <!-- Comments -->
+      <div class="comment">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=25" />
+        <div class="comment-content">
+          <div class="comment-author">Petar Nikolić</div>
+          <div class="comment-text">I have one extra. Come by apartment 12 after 6pm.</div>
+          <div class="comment-time">1 hour ago</div>
+        </div>
+      </div>
+
+      <div class="comment">
+        <img class="avatar" src="https://i.pravatar.cc/80?img=45" />
+        <div class="comment-content">
+          <div class="comment-author">Jelena Kovač</div>
+          <div class="comment-text">Same problem last month. Building management can issue a new one.</div>
+          <div class="comment-time">45 min ago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment-input-bar">
+      <input type="text" placeholder="Write a comment..." />
+      <button>➤</button>
+    </div>
+  </div>
+</div>
+
+
+================================================================================
+9. CREATE POST PAGE
+================================================================================
+
+<style>
+  .create-post {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .create-post h1 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .image-previews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1f5f9;
+  }
+
+  .preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .preview-item .remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .add-photos {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .add-photos:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #f1f5f9;
+    color: var(--text);
+  }
+</style>
+
+<div class="create-post">
+  <h1>New post</h1>
+
+  <div class="form-group">
+    <label>What's on your mind?</label>
+    <textarea placeholder="Share something with your neighbors..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Photos</label>
+    <div class="add-photos">
+      📷 Tap to add photos<br>
+      <small>Up to 6 images</small>
+    </div>
+
+    <div class="image-previews">
+      <div class="preview-item">
+        <img src="https://picsum.photos/200/200?random=11" alt="" />
+        <button class="remove">✕</button>
+      </div>
+      <div class="preview-item">
+        <img src="https://picsum.photos/200/200?random=12" alt="" />
+        <button class="remove">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-secondary">Cancel</button>
+    <button class="btn btn-primary">Publish</button>
+  </div>
+</div>
+
+
+================================================================================
+10. CHAT + ONLINE USERS
+================================================================================
+
+<style>
+  .chat-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--topbar-height) - var(--bottomnav-height) - 32px);
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  @media (min-width: 900px) {
+    .chat-layout {
+      height: calc(100vh - var(--topbar-height) - 48px);
+      flex-direction: row;
+    }
+  }
+
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .message.mine {
+    align-self: flex-end;
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+
+  .message.theirs {
+    align-self: flex-start;
+    background: #f1f5f9;
+    border-bottom-left-radius: 4px;
+  }
+
+  .message .sender {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    opacity: 0.8;
+  }
+
+  .message .time {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  .chat-input {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .chat-input input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+
+  .chat-input button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  /* Online users panel */
+  .online-panel {
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    background: #f8fafc;
+  }
+
+  @media (min-width: 900px) {
+    .online-panel {
+      width: 200px;
+      border-top: none;
+      border-left: 1px solid var(--border);
+    }
+  }
+
+  .online-panel h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  .online-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+
+  .online-user .dot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+  }
+
+  .online-user img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+  }
+</style>
+
+<div class="chat-layout">
+  <div class="chat-main">
+    <div class="chat-messages">
+      <div class="message theirs">
+        <div class="sender">Ana</div>
+        Does anyone know when the elevator will be fixed?
+        <div class="time">10:24</div>
+      </div>
+      <div class="message mine">
+        They said by Friday
+        <div class="time">10:26</div>
+      </div>
+      <div class="message theirs">
+        <div class="sender">Marko</div>
+        Thanks!
+        <div class="time">10:27</div>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" placeholder="Type a message..." />
+      <button>➤</button>
+    </div>
+  </div>
+
+  <aside class="online-panel">
+    <h3>Online · 4</h3>
+    <div class="online-user">
+      <span class="dot"></span>
+      <img src="https://i.pravatar.cc/80?img=12" alt="" />
+      Ana Marković
+    </div>
+    <div class="online-user">
+      <span class="dot"></span>
+      <img src="https://i.pravatar.cc/80?img=33" alt="" />
+      Marko J.
+    </div>
+    <div class="online-user">
+      <span class="dot"></span>
+      <img src="https://i.pravatar.cc/80?img=25" alt="" />
+      Petar N.
+    </div>
+    <div class="online-user">
+      <span class="dot"></span>
+      <img src="https://i.pravatar.cc/80?img=5" alt="" />
+      You
+    </div>
+  </aside>
+</div>
+
+
+================================================================================
+11. POLLS LIST (Active / Expired)
+================================================================================
+
+<style>
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: none;
+    background: #e2e8f0;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .tab.active {
+    background: var(--primary);
+    color: white;
+  }
+
+  .poll-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .poll-question {
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .poll-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .poll-option {
+    margin-bottom: 12px;
+  }
+
+  .poll-option-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 6px;
+  }
+
+  .poll-option.voted .progress-fill {
+    background: #16a34a;
+  }
+
+  .poll-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+  <h1 style="font-size:1.4rem;">Polls</h1>
+  <button class="btn-primary" style="padding:10px 16px;border-radius:8px;background:var(--primary);color:white;border:none;font-weight:600;">＋ New poll</button>
+</div>
+
+<div class="tabs">
+  <button class="tab active">Active</button>
+  <button class="tab">Expired</button>
+</div>
+
+<!-- Active Poll -->
+<div class="poll-card">
+  <div class="poll-question">Should we install better lighting in the parking area?</div>
+  <div class="poll-meta">Created by Ana · Ends in 2 days · 18 votes</div>
+
+  <div class="poll-option voted">
+    <div class="poll-option-header">
+      <span>Yes</span>
+      <span>72%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 72%"></div>
+    </div>
+  </div>
+
+  <div class="poll-option">
+    <div class="poll-option-header">
+      <span>No</span>
+      <span>28%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 28%"></div>
+    </div>
+  </div>
+
+  <div class="poll-footer">
+    <span>You voted Yes</span>
+    <span>18 votes</span>
+  </div>
+</div>
+
+<!-- Another poll -->
+<div class="poll-card">
+  <div class="poll-question">Is the current cleaning schedule good enough?</div>
+  <div class="poll-meta">Created by Marko · Ends in 5 days · 9 votes</div>
+
+  <div class="poll-option">
+    <div class="poll-option-header">
+      <span>Yes</span>
+      <span>44%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 44%"></div>
+    </div>
+  </div>
+
+  <div class="poll-option">
+    <div class="poll-option-header">
+      <span>No</span>
+      <span>56%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 56%"></div>
+    </div>
+  </div>
+
+  <div class="poll-footer">
+    <span>Tap to vote</span>
+    <span>9 votes</span>
+  </div>
+</div>
+
+
+================================================================================
+12. CREATE POLL (Modal)
+================================================================================
+
+<style>
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 16px;
+  }
+
+  .modal {
+    background: var(--card);
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .modal h2 {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .modal .form-group {
+    margin-bottom: 18px;
+  }
+
+  .modal label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .modal input, .modal select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-cancel {
+    background: #f1f5f9;
+  }
+
+  .btn-create {
+    background: var(--primary);
+    color: white;
+  }
+</style>
+
+<div class="modal-overlay">
+  <div class="modal">
+    <h2>Create poll</h2>
+
+    <div class="form-group">
+      <label>Question</label>
+      <input type="text" placeholder="What do you want to ask?" />
+    </div>
+
+    <div class="form-group">
+      <label>Duration</label>
+      <select>
+        <option>1 day</option>
+        <option selected>3 days</option>
+        <option>7 days</option>
+        <option>14 days</option>
+      </select>
+    </div>
+
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;">
+      Options are fixed to <strong>Yes</strong> and <strong>No</strong>.
+    </p>
+
+    <div class="modal-actions">
+      <button class="btn-cancel">Cancel</button>
+      <button class="btn-create">Create poll</button>
+    </div>
+  </div>
+</div>
+
+
+================================================================================
+13. RESIDENTS LIST
+================================================================================
+
+<style>
+  .search-bar {
+    margin-bottom: 16px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: var(--card);
+  }
+
+  .resident-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .resident-card img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .resident-info {
+    flex: 1;
+  }
+
+  .resident-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .resident-detail {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .role-badge {
+    font-size: 0.7rem;
+    background: #eff6ff;
+    color: var(--primary);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+</style>
+
+<h1 style="font-size:1.4rem;margin-bottom:16px;">Residents</h1>
+
+<div class="search-bar">
+  <input type="search" placeholder="Search by name or apartment..." />
+</div>
+
+<a href="#" class="resident-card">
+  <img src="https://i.pravatar.cc/80?img=12" alt="" />
+  <div class="resident-info">
+    <div class="resident-name">Ana Marković</div>
+    <div class="resident-detail">Floor 4 · Apt 14</div>
+  </div>
+  <span class="role-badge">Admin</span>
+</a>
+
+<a href="#" class="resident-card">
+  <img src="https://i.pravatar.cc/80?img=33" alt="" />
+  <div class="resident-info">
+    <div class="resident-name">Marko Jovanović</div>
+    <div class="resident-detail">Floor 2 · Apt 7</div>
+  </div>
+</a>
+
+<a href="#" class="resident-card">
+  <img src="https://i.pravatar.cc/80?img=25" alt="" />
+  <div class="resident-info">
+    <div class="resident-name">Petar Nikolić</div>
+    <div class="resident-detail">Floor 1 · Apt 3</div>
+  </div>
+</a>
+
+<a href="#" class="resident-card">
+  <img src="https://i.pravatar.cc/80?img=45" alt="" />
+  <div class="resident-info">
+    <div class="resident-name">Jelena Kovač</div>
+    <div class="resident-detail">Floor 5 · Apt 18</div>
+  </div>
+</a>
+
+
+================================================================================
+14. ANOTHER RESIDENT'S PROFILE
+================================================================================
+
+<style>
+  .profile-header {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+
+  .profile-header img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 14px;
+  }
+
+  .profile-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+  }
+
+  .profile-header .detail {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .info-list {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+
+  .info-item:last-child {
+    border-bottom: none;
+  }
+
+  .info-item span:first-child {
+    color: var(--muted);
+  }
+</style>
+
+<div class="profile-header">
+  <img src="https://i.pravatar.cc/150?img=12" alt="" />
+  <h1>Ana Marković</h1>
+  <div class="detail">Floor 4 · Apt 14</div>
+</div>
+
+<div class="info-list">
+  <div class="info-item">
+    <span>Role</span>
+    <span>Entrance Admin</span>
+  </div>
+  <div class="info-item">
+    <span>Member since</span>
+    <span>March 2025</span>
+  </div>
+  <div class="info-item">
+    <span>Posts</span>
+    <span>12</span>
+  </div>
+</div>
+
+
+================================================================================
+15. MY PROFILE / EDIT + SETTINGS
+================================================================================
+
+<style>
+  .profile-edit {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .avatar-edit {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .avatar-edit img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .avatar-edit button {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .settings-section {
+    margin-top: 32px;
+  }
+
+  .settings-section h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.95rem;
+  }
+
+  .toggle {
+    width: 48px;
+    height: 28px;
+    background: #cbd5e1;
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .toggle.on {
+    background: var(--primary);
+  }
+
+  .toggle::after {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: 0.2s;
+  }
+
+  .toggle.on::after {
+    left: 23px;
+  }
+
+  .logout-btn {
+    width: 100%;
+    margin-top: 28px;
+    padding: 13px;
+    background: #fef2f2;
+    color: #dc2626;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+</style>
+
+<div class="profile-edit">
+  <div class="avatar-edit">
+    <img src="https://i.pravatar.cc/150?img=5" alt="" />
+    <br />
+    <button>Change photo</button>
+  </div>
+
+  <div class="form-group">
+    <label>First name</label>
+    <input type="text" value="Lazar" />
+  </div>
+  <div class="form-group">
+    <label>Last name</label>
+    <input type="text" value="Radanović" />
+  </div>
+  <div class="form-group">
+    <label>Apartment / Floor</label>
+    <input type="text" value="Floor 3 · Apt 9" />
+  </div>
+
+  <div class="settings-section">
+    <h3>Notifications</h3>
+    <div class="setting-item">
+      <span>Push notifications</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="setting-item">
+      <span>New messages</span>
+      <div class="toggle on"></div>
+    </div>
+    <div class="setting-item">
+      <span>New polls</span>
+      <div class="toggle on"></div>
+    </div>
+  </div>
+
+  <button class="logout-btn">Log out</button>
+</div>
+
+
+================================================================================
+16. NOTIFICATIONS PAGE
+================================================================================
+
+<style>
+  .notif-item {
+    display: flex;
+    gap: 14px;
+    background: var(--card);
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .notif-item.unread {
+    background: #eff6ff;
+  }
+
+  .notif-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .notif-content {
+    flex: 1;
+  }
+
+  .notif-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .notif-time {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+</style>
+
+<h1 style="font-size:1.4rem;margin-bottom:16px;">Notifications</h1>
+
+<div class="notif-item unread">
+  <div class="notif-icon">💬</div>
+  <div class="notif-content">
+    <div class="notif-text"><strong>Ana Marković</strong> commented on your post</div>
+    <div class="notif-time">12 min ago</div>
+  </div>
+</div>
+
+<div class="notif-item unread">
+  <div class="notif-icon">📊</div>
+  <div class="notif-content">
+    <div class="notif-text">New poll: <strong>Should we install better lighting?</strong></div>
+    <div class="notif-time">1 hour ago</div>
+  </div>
+</div>
+
+<div class="notif-item">
+  <div class="notif-icon">✅</div>
+  <div class="notif-content">
+    <div class="notif-text">Your request to join the entrance was approved</div>
+    <div class="notif-time">Yesterday</div>
+  </div>
+</div>
+
+<div class="notif-item">
+  <div class="notif-icon">❤️</div>
+  <div class="notif-content">
+    <div class="notif-text"><strong>Marko</strong> and 4 others liked your post</div>
+    <div class="notif-time">2 days ago</div>
+  </div>
+</div>
+
+
+================================================================================
+17. ADMIN – MEMBERS
+================================================================================
+
+<style>
+  .admin-section {
+    margin-bottom: 28px;
+  }
+
+  .admin-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .invite-box {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .invite-code {
+    flex: 1;
+    font-family: monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  .pending-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    padding: 14px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+
+  .pending-card img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+
+  .pending-info {
+    flex: 1;
+  }
+
+  .pending-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn-sm {
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-approve {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+
+  .btn-reject {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+</style>
+
+<h1 style="font-size:1.4rem;margin-bottom:20px;">Admin · Members</h1>
+
+<!-- Invite code -->
+<div class="admin-section">
+  <h2>Invite code</h2>
+  <div class="invite-box">
+    <div class="invite-code">ULZ-4X9K</div>
+    <button class="btn-sm" style="background:var(--primary);color:white;">Copy</button>
+  </div>
+</div>
+
+<!-- Pending approvals -->
+<div class="admin-section">
+  <h2>Pending approvals (2)</h2>
+
+  <div class="pending-card">
+    <img src="https://i.pravatar.cc/80?img=68" alt="" />
+    <div class="pending-info">
+      <div style="font-weight:600;">Ivana Petrović</div>
+      <div style="font-size:0.8rem;color:var(--muted);">Apt 11 · Requested 3h ago</div>
+    </div>
+    <div class="pending-actions">
+      <button class="btn-sm btn-approve">Approve</button>
+      <button class="btn-sm btn-reject">Reject</button>
+    </div>
+  </div>
+
+  <div class="pending-card">
+    <img src="https://i.pravatar.cc/80?img=52" alt="" />
+    <div class="pending-info">
+      <div style="font-weight:600;">Nikola Đorđević</div>
+      <div style="font-size:0.8rem;color:var(--muted);">Apt 6 · Requested yesterday</div>
+    </div>
+    <div class="pending-actions">
+      <button class="btn-sm btn-approve">Approve</button>
+      <button class="btn-sm btn-reject">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- Current members -->
+<div class="admin-section">
+  <h2>Current members (14)</h2>
+  <!-- Reuse resident cards from page 13 -->
+</div>
+
+
+================================================================================
+END OF TEMPLATES
+================================================================================
