@@ -1,0 +1,122 @@
+<div class="page-header">
+  <div>
+    <h1 class="page-title">{{ 'craftsmen.title' | t }}</h1>
+    <p class="muted subtitle-line">{{ 'craftsmen.subtitle' | t }}</p>
+  </div>
+  <button class="btn btn-primary btn-small" (click)="add()">＋ {{ 'craftsmen.add' | t }}</button>
+</div>
+
+<div class="trade-filter">
+  <button class="tab" [class.active]="filter() === null" (click)="setFilter(null)">{{ 'craftsmen.all' | t }}</button>
+  @for (t of trades; track t) {
+    <button class="tab" [class.active]="filter() === t" (click)="setFilter(t)">{{ icon(t) }} {{ tradeLabel(t) | t }}</button>
+  }
+</div>
+
+@if (list(); as items) {
+  @for (c of items; track c.id) {
+    <article class="card craftsman">
+      <div class="top">
+        @if (c.photo) {
+          <img class="photo" [src]="c.photo.thumbnailUrl" [alt]="c.name" (click)="lightbox.open(c.photo.url)" />
+        } @else {
+          <div class="photo placeholder">{{ icon(c.trade) }}</div>
+        }
+        <div class="main">
+          <div class="name">{{ c.name }}</div>
+          <span class="trade-chip">{{ icon(c.trade) }} {{ tradeLabel(c.trade) | t }}</span>
+          @if (c.addedBy) { <div class="added muted">{{ 'craftsmen.addedBy' | t: { name: c.addedBy } }}</div> }
+        </div>
+        @if (c.canEdit) {
+          <div class="owner-actions">
+            <button class="icon-btn" (click)="edit(c)" [title]="'craftsmen.edit' | t">✏️</button>
+            <button class="icon-btn" (click)="remove(c)" [title]="'common.delete' | t">🗑️</button>
+          </div>
+        }
+      </div>
+
+      @if (c.description) { <p class="desc">{{ c.description }}</p> }
+
+      <div class="contacts">
+        <a class="btn btn-primary btn-small" [href]="tel(c.phone)">📞 {{ c.phone }}</a>
+        @if (c.email) { <a class="btn btn-secondary btn-small" [href]="'mailto:' + c.email">✉️ {{ c.email }}</a> }
+        @if (c.website) {
+          <a class="btn btn-secondary btn-small" [href]="c.website" target="_blank" rel="noopener noreferrer">🌐 {{ c.website.replace('https://', '').replace('http://', '') }}</a>
+        }
+      </div>
+
+      <div class="footer">
+        <button class="recommend" [class.on]="c.recommendedByMe" (click)="recommend(c)">
+          👍 {{ (c.recommendedByMe ? 'craftsmen.recommended' : 'craftsmen.recommend') | t }}
+        </button>
+        <span class="muted count">{{ 'craftsmen.recommendations' | tp: c.recommendations }}</span>
+      </div>
+    </article>
+  } @empty {
+    <div class="empty-state"><div class="emoji">🛠️</div>{{ 'craftsmen.empty' | t }}</div>
+  }
+} @else {
+  <div class="spinner"></div>
+}
+
+@if (editing(); as e) {
+  <div class="modal-overlay" (click)="editing.set(null)">
+    <form class="modal craftsman-modal" (click)="$event.stopPropagation()" (ngSubmit)="save()">
+      <h2>{{ (e.id ? 'craftsmen.edit' : 'craftsmen.add') | t }}</h2>
+
+      <div class="photo-edit">
+        @if (e.preview) {
+          <img class="photo" [src]="e.preview" alt="" [class.dim]="e.uploading" />
+        } @else {
+          <div class="photo placeholder">{{ icon(e.form.trade) }}</div>
+        }
+        <div class="photo-buttons">
+          <label class="btn btn-secondary btn-small">
+            📷 {{ 'craftsmen.addPhoto' | t }}
+            <input type="file" accept="image/*" hidden (change)="onPhoto($event)" />
+          </label>
+          @if (e.preview) {
+            <button type="button" class="btn btn-ghost btn-small" (click)="removePhoto()">{{ 'craftsmen.removePhoto' | t }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="cn">{{ 'craftsmen.name' | t }}</label>
+        <input id="cn" name="name" maxlength="100" [(ngModel)]="e.form.name" />
+      </div>
+      <div class="form-group">
+        <label for="ct">{{ 'craftsmen.trade' | t }}</label>
+        <select id="ct" name="trade" [(ngModel)]="e.form.trade">
+          @for (t of trades; track t) {
+            <option [value]="t">{{ icon(t) }} {{ tradeLabel(t) | t }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="cp">{{ 'craftsmen.phone' | t }}</label>
+        <input id="cp" name="phone" type="tel" maxlength="30" [(ngModel)]="e.form.phone" />
+      </div>
+      <div class="form-group">
+        <label for="ce">{{ 'craftsmen.email' | t }}</label>
+        <input id="ce" name="email" type="email" maxlength="254" [(ngModel)]="e.form.email" />
+      </div>
+      <div class="form-group">
+        <label for="cw">{{ 'craftsmen.website' | t }}</label>
+        <input id="cw" name="website" type="url" maxlength="255" [(ngModel)]="e.form.website" placeholder="https://" />
+      </div>
+      <div class="form-group">
+        <label for="cd">{{ 'craftsmen.description' | t }}</label>
+        <textarea id="cd" name="description" rows="3" maxlength="1000" [(ngModel)]="e.form.description"
+          [placeholder]="'craftsmen.descriptionPlaceholder' | t"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="editing.set(null)">{{ 'common.cancel' | t }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!canSave(e)">
+          {{ (saving() ? 'common.saving' : 'common.save') | t }}
+        </button>
+      </div>
+    </form>
+  </div>
+}
