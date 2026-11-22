@@ -8,14 +8,22 @@ import {
   Comment,
   CursorPage,
   Entrance,
-  FeeTable,
+  Cost,
+  CostRequest,
+  CostTable,
+  Craftsman,
+  CraftsmanRequest,
   FileDto,
   LikeResponse,
   Member,
+  MyCosts,
   NotificationSettings,
   Poll,
   Post,
+  RecommendResponse,
   Resident,
+  Trade,
+  Unit,
   User,
 } from './models';
 
@@ -153,21 +161,58 @@ export class ApiService {
     return this.http.post<Billing>('/api/admin/billing/sync', {});
   }
 
-  // ---- cleaning fee ----
-  fees(year: number): Observable<FeeTable> {
-    return this.http.get<FeeTable>('/api/fees', { params: { year } });
+  // ---- costs & apartments ----
+  costs(): Observable<Cost[]> {
+    return this.http.get<Cost[]>('/api/costs');
   }
-  setFeePaid(unitId: string, year: number, month: number, paid: boolean): Observable<void> {
-    return this.http.put<void>('/api/admin/fees/payments', { unitId, year, month, paid });
+  myCosts(year: number): Observable<MyCosts> {
+    return this.http.get<MyCosts>('/api/costs/mine', { params: { year } });
   }
-  updateFeeSettings(amount: number, currency: string): Observable<void> {
-    return this.http.put<void>('/api/admin/fees/settings', { amount, currency });
+  costTable(id: string, year: number): Observable<CostTable> {
+    return this.http.get<CostTable>(`/api/costs/${id}/table`, { params: { year } });
   }
-  addFeeUnit(floor: string, apartment: string): Observable<void> {
-    return this.http.post<void>('/api/admin/fees/units', { floor, apartment });
+  createCost(body: CostRequest): Observable<Cost> {
+    return this.http.post<Cost>('/api/admin/costs', body);
   }
-  removeFeeUnit(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/admin/fees/units/${id}`);
+  updateCost(id: string, body: CostRequest): Observable<Cost> {
+    return this.http.put<Cost>(`/api/admin/costs/${id}`, body);
+  }
+  deleteCost(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/admin/costs/${id}`);
+  }
+  /** period: "YYYY-MM" for monthly costs, "ONCE" for one-time costs. */
+  setCostPaid(costId: string, unitId: string, period: string, paid: boolean): Observable<void> {
+    return this.http.put<void>('/api/admin/costs/payments', { costId, unitId, period, paid });
+  }
+  units(): Observable<Unit[]> {
+    return this.http.get<Unit[]>('/api/units');
+  }
+  addUnit(floor: string, apartment: string, areaM2: number | null): Observable<void> {
+    return this.http.post<void>('/api/admin/units', { floor, apartment, areaM2 });
+  }
+  updateUnit(id: string, areaM2: number | null): Observable<void> {
+    return this.http.put<void>(`/api/admin/units/${id}`, { areaM2 });
+  }
+  removeUnit(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/admin/units/${id}`);
+  }
+
+  // ---- craftsmen ----
+  craftsmen(trade?: Trade | null): Observable<Craftsman[]> {
+    return this.http.get<Craftsman[]>('/api/craftsmen', { params: trade ? { trade } : {} });
+  }
+  createCraftsman(body: CraftsmanRequest): Observable<Craftsman> {
+    return this.http.post<Craftsman>('/api/craftsmen', body);
+  }
+  updateCraftsman(id: string, body: CraftsmanRequest): Observable<Craftsman> {
+    return this.http.put<Craftsman>(`/api/craftsmen/${id}`, body);
+  }
+  deleteCraftsman(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/craftsmen/${id}`);
+  }
+  recommendCraftsman(id: string, recommend: boolean): Observable<RecommendResponse> {
+    const url = `/api/craftsmen/${id}/recommend`;
+    return recommend ? this.http.put<RecommendResponse>(url, {}) : this.http.delete<RecommendResponse>(url);
   }
 
   // ---- admin ----

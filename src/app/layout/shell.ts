@@ -62,7 +62,7 @@ import { I18nKey, I18nService, TranslatePipe } from '../core/i18n/i18n';
     </main>
 
     <nav class="bottom-nav">
-      @for (item of nav; track item.path) {
+      @for (item of bottomNav; track item.path) {
         <a [routerLink]="item.path" routerLinkActive="active">
           <span class="icon">{{ item.icon }}</span>
           {{ item.short | t }}
@@ -78,14 +78,17 @@ export class Shell implements OnInit, OnDestroy {
   protected readonly notifications = inject(NotificationsService);
   private readonly presence = inject(PresenceService);
 
-  protected readonly nav: { path: string; icon: string; label: I18nKey; short: I18nKey }[] = [
-    { path: '/feed', icon: '🏠', label: 'nav.feed', short: 'nav.feed' },
-    { path: '/chat', icon: '💬', label: 'nav.chat', short: 'nav.chat' },
-    { path: '/polls', icon: '📊', label: 'nav.polls', short: 'nav.polls' },
-    { path: '/fees', icon: '🧹', label: 'nav.fees', short: 'nav.feesShort' },
-    { path: '/residents', icon: '👥', label: 'nav.residents', short: 'nav.residents' },
-    { path: '/profile', icon: '👤', label: 'nav.myProfile', short: 'nav.profile' },
+  /** bottom: shown in the mobile bottom nav (Profile is reachable from the top-bar avatar). */
+  protected readonly nav: { path: string; icon: string; label: I18nKey; short: I18nKey; bottom: boolean }[] = [
+    { path: '/feed', icon: '🏠', label: 'nav.feed', short: 'nav.feed', bottom: true },
+    { path: '/chat', icon: '💬', label: 'nav.chat', short: 'nav.chat', bottom: true },
+    { path: '/polls', icon: '📊', label: 'nav.polls', short: 'nav.polls', bottom: true },
+    { path: '/fees', icon: '🧾', label: 'nav.fees', short: 'nav.feesShort', bottom: true },
+    { path: '/craftsmen', icon: '🛠️', label: 'nav.craftsmen', short: 'nav.craftsmen', bottom: true },
+    { path: '/residents', icon: '👥', label: 'nav.residents', short: 'nav.residents', bottom: true },
+    { path: '/profile', icon: '👤', label: 'nav.myProfile', short: 'nav.profile', bottom: false },
   ];
+  protected readonly bottomNav = this.nav.filter((i) => i.bottom);
 
   protected readonly billing = inject(BillingService);
   private readonly i18n = inject(I18nService);

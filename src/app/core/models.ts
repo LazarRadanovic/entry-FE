@@ -158,21 +158,123 @@ export interface Billing {
   canManage: boolean;
 }
 
-export interface FeeRow {
+export type CostType = 'PER_APARTMENT' | 'BY_AREA';
+export type CostRecurrence = 'MONTHLY' | 'ONE_TIME';
+
+/** An apartment. residents: app users living there (empty for admin-added apartments). */
+export interface Unit {
+  id: string;
+  floor: string;
+  apartment: string;
+  areaM2: number | null;
+  residents: string[];
+  mine: boolean;
+}
+
+export interface Cost {
+  id: string;
+  name: string;
+  description: string | null;
+  type: CostType;
+  /** Per-apartment amount (PER_APARTMENT) or the total to split (BY_AREA). */
+  amount: number;
+  currency: string;
+  recurrence: CostRecurrence;
+  appliesToAll: boolean;
+  /** Assigned apartments; empty when appliesToAll. */
+  unitIds: string[];
+  dueDate: string | null;
+  /** BY_AREA cost with an apartment without area: shares can't be computed. */
+  missingArea: boolean;
+}
+
+export interface CostRequest {
+  name: string;
+  description: string | null;
+  type: CostType;
+  amount: number;
+  currency: string;
+  recurrence: CostRecurrence;
+  dueDate: string | null;
+  appliesToAll: boolean;
+  unitIds: string[];
+}
+
+export interface CostRow {
   unitId: string;
   floor: string;
   apartment: string;
+  areaM2: number | null;
   residents: string[];
   mine: boolean;
-  /** 12 entries, January first: when it was marked paid, or null. */
+  /** What the apartment owes per period; null when area is missing. */
+  share: number | null;
+  /** 12 entries (January first) for monthly costs, 1 for one-time: when it was marked paid, or null. */
   paid: (string | null)[];
 }
 
-export interface FeeTable {
+export interface CostTable {
   year: number;
-  amount: number | null;
-  currency: string;
-  rows: FeeRow[];
+  cost: Cost;
+  rows: CostRow[];
+}
+
+export interface MyCost {
+  cost: Cost;
+  share: number | null;
+  paid: (string | null)[];
+}
+
+export interface MyCosts {
+  year: number;
+  unitId: string | null;
+  floor: string | null;
+  apartment: string | null;
+  costs: MyCost[];
+}
+
+export type Trade =
+  | 'PLUMBER'
+  | 'ELECTRICIAN'
+  | 'LOCKSMITH'
+  | 'PAINTER'
+  | 'CARPENTER'
+  | 'HVAC'
+  | 'CLEANING'
+  | 'ELEVATOR'
+  | 'MOVING'
+  | 'OTHER';
+
+export interface Craftsman {
+  id: string;
+  name: string;
+  trade: Trade;
+  phone: string;
+  email: string | null;
+  website: string | null;
+  description: string | null;
+  photo: FileDto | null;
+  addedBy: string | null;
+  canEdit: boolean;
+  recommendations: number;
+  recommendedByMe: boolean;
+  createdAt: string;
+}
+
+export interface CraftsmanRequest {
+  name: string;
+  trade: Trade;
+  phone: string;
+  email: string | null;
+  website: string | null;
+  description: string | null;
+  photoFileId: string | null;
+}
+
+export interface RecommendResponse {
+  craftsmanId: string;
+  recommendations: number;
+  recommendedByMe: boolean;
 }
 
 /** Envelope of every STOMP message. */

@@ -7,114 +7,189 @@
   </div>
 </div>
 
-@if (table(); as t) {
-  <div class="card info">
-    <div class="amount">
-      @if (t.amount != null) {
-        {{ 'fees.perMonth' | t: { amount: money(t.amount, t.currency) } }}
-      } @else {
-        <span class="muted">{{ 'fees.notSet' | t }}</span>
-      }
-    </div>
-    @if (summary(); as s) {
-      <div class="summary">
-        <span class="pill">{{ 'fees.paidOf' | t: { paid: s.paid, total: s.total } }}</span>
-        @if (s.sum) {
-          <span class="muted">{{ 'fees.collected' | t: { month: s.month, sum: s.sum } }}</span>
+@if (costs(); as list) {
+  <!-- my apartment's costs -->
+  @if (mine(); as m) {
+    @if (m.unitId) {
+      <div class="card mine-card">
+        <div class="mine-head">
+          <h2>{{ 'fees.mineTitle' | t }}</h2>
+          <span class="muted">{{ 'fees.mineApt' | t: { label: m.floor + '/' + m.apartment } }}</span>
+        </div>
+        @for (item of m.costs; track item.cost.id) {
+          @let st = myStatus(item);
+          <button class="mine-row" (click)="select(item.cost)">
+            <span class="mine-name">{{ item.cost.name }}</span>
+            <span class="mine-amount">
+              @if (item.share != null) { {{ money(item.share, item.cost.currency) }} } @else { – }
+            </span>
+            <span class="status" [class.ok]="st.paid">{{ st.text }}</span>
+          </button>
+        } @empty {
+          <p class="muted small">{{ 'fees.mineEmpty' | t }}</p>
         }
       </div>
     }
-    <div class="hint muted">{{ (isAdmin() ? 'fees.adminHint' : 'fees.residentHint') | t }}</div>
+  }
+
+  <!-- cost chips -->
+  <div class="cost-tabs">
+    @for (c of list; track c.id) {
+      <button class="tab" [class.active]="c.id === selectedId()" (click)="select(c)">{{ c.name }}</button>
+    }
+    @if (isAdmin()) {
+      <button class="tab add-tab" (click)="newCost()">＋ {{ 'fees.newCost' | t }}</button>
+    }
   </div>
 
-  @if (loading()) {
-    <div class="spinner"></div>
-  } @else if (!t.rows.length) {
-    <div class="empty-state"><div class="emoji">🧹</div>{{ 'fees.empty' | t }}</div>
-  } @else {
-    <div class="card table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th class="apt-col">{{ 'fees.apartment' | t }}</th>
-            @for (m of months(); track m.index) {
-              <th [class.now]="m.index === currentMonth()" [title]="m.long">{{ m.short }}</th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of t.rows; track row.unitId) {
-            <tr [class.mine]="row.mine">
-              <th class="apt-col" scope="row">
-                <div class="apt">
-                  <span class="apt-label">{{ label(row) }}</span>
-                  @if (isAdmin() && !row.residents.length) {
-                    <button class="remove" (click)="removeUnit(row)" [title]="'fees.removeTitle' | t">✕</button>
-                  }
-                </div>
-                <div class="who">
-                  @if (row.residents.length) {
-                    {{ row.residents.join(', ') }}
-                  } @else {
-                    <em>{{ 'fees.noUsers' | t }}</em>
-                  }
-                </div>
-                @if (row.mine) { <span class="mine-tag">{{ 'fees.mine' | t }}</span> }
-              </th>
-              @for (m of months(); track m.index) {
-                @let paidAt = row.paid[m.index];
-                <td [class.now]="m.index === currentMonth()">
-                  <button
-                    class="cell"
-                    [class.paid]="!!paidAt"
-                    [class.readonly]="!isAdmin()"
-                    [disabled]="busyCell() === row.unitId + ':' + m.index"
-                    (click)="toggle(row, m.index)"
-                    [title]="paidAt ? ('fees.paidOn' | t: { date: (paidAt | date: 'mediumDate' : undefined : i18n.locale()) ?? '' }) : ('fees.notPaid' | t)"
-                    [attr.aria-label]="label(row) + ' ' + m.long + ': ' + (paidAt ? '✓' : '–')"
-                  >
-                    {{ paidAt ? '✓' : '' }}
-                  </button>
-                </td>
-              }
-            </tr>
-          }
-        </tbody>
-        <tfoot>
-          <tr>
-            <th class="apt-col">Σ</th>
-            @for (m of months(); track m.index) {
-              <td [class.now]="m.index === currentMonth()">{{ paidPerMonth()[m.index] }}/{{ t.rows.length }}</td>
-            }
-          </tr>
-        </tfoot>
-      </table>
+  @if (!list.length) {
+    <div class="empty-state">
+      <div class="emoji">🧾</div>
+      {{ 'fees.noCosts' | t }}
+      @if (isAdmin()) { <div class="small">{{ 'fees.noCostsAdmin' | t }}</div> }
     </div>
   }
 
-  @if (isAdmin()) {
-    <div class="admin-grid">
-      <form class="card admin-box" (ngSubmit)="saveSettings()">
-        <h2>{{ 'fees.settings' | t }}</h2>
-        <div class="row">
-          <div class="form-group">
-            <label for="amount">{{ 'fees.amount' | t }}</label>
-            <input id="amount" name="amount" type="number" min="0" step="1" [(ngModel)]="amount" />
-          </div>
-          <div class="form-group">
-            <label for="currency">{{ 'fees.currency' | t }}</label>
-            <input id="currency" name="currency" maxlength="3" [(ngModel)]="currency" style="text-transform:uppercase" />
+  @if (table(); as t) {
+    <div class="card info">
+      <div class="info-top">
+        <div>
+          <div class="amount">{{ amountText(t.cost) }}</div>
+          <div class="meta muted">
+            @if (t.cost.appliesToAll) { {{ 'fees.appliesAll' | t }} } @else { {{ 'fees.appliesSome' | tp: t.cost.unitIds.length }} }
+            @if (t.cost.dueDate) { · {{ 'fees.due' | t: { date: (t.cost.dueDate | date: 'mediumDate' : undefined : i18n.locale()) ?? '' } }} }
           </div>
         </div>
-        <button class="btn btn-primary btn-small" type="submit" [disabled]="amount == null || amount < 0">
-          {{ 'fees.saveSettings' | t }}
-        </button>
-      </form>
+        @if (isAdmin()) {
+          <div class="info-actions">
+            <button class="btn btn-secondary btn-small" (click)="editCost(t.cost)">{{ 'fees.edit' | t }}</button>
+            <button class="btn btn-ghost btn-small danger" (click)="deleteCost(t.cost)">{{ 'common.delete' | t }}</button>
+          </div>
+        }
+      </div>
+      @if (t.cost.description) { <p class="desc">{{ t.cost.description }}</p> }
+      @if (t.cost.missingArea) {
+        <div class="warn">⚠️ {{ (isAdmin() ? 'fees.missingAreaAdmin' : 'fees.missingArea') | t }}</div>
+      }
+      @if (summary(); as s) {
+        <div class="summary">
+          <span class="pill">{{ 'fees.paidOf' | t: { paid: s.paid, total: s.total } }}</span>
+          @if (s.sum) {
+            <span class="muted">
+              @if (s.month) { {{ 'fees.collected' | t: { month: s.month, sum: s.sum } }} } @else { {{ 'fees.collectedOnce' | t: { sum: s.sum } }} }
+            </span>
+          }
+        </div>
+      }
+      <div class="hint muted">{{ (isAdmin() ? 'fees.adminHint' : 'fees.residentHint') | t }}</div>
+    </div>
 
-      <form class="card admin-box" (ngSubmit)="addUnit()">
-        <h2>{{ 'fees.addUnit' | t }}</h2>
-        <p class="muted small">{{ 'fees.addUnitHint' | t }}</p>
-        <div class="row">
+    @if (loadingTable()) {
+      <div class="spinner"></div>
+    } @else if (!t.rows.length) {
+      <div class="empty-state"><div class="emoji">🏠</div>{{ 'fees.empty' | t }}</div>
+    } @else {
+      <div class="card table-wrap">
+        <table [class.narrow]="oneTime()">
+          <thead>
+            <tr>
+              <th class="apt-col">{{ 'fees.apartment' | t }}</th>
+              @if (byArea()) { <th class="share-col">{{ 'fees.share' | t }}</th> }
+              @for (s of slots(); track s.index) {
+                <th [class.now]="!oneTime() && s.index === currentMonth()" [title]="s.long">{{ s.short }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of t.rows; track row.unitId) {
+              <tr [class.mine]="row.mine">
+                <th class="apt-col" scope="row">
+                  <div class="apt"><span class="apt-label">{{ label(row) }}</span></div>
+                  <div class="who">
+                    @if (row.residents.length) { {{ row.residents.join(', ') }} } @else { <em>{{ 'fees.noUsers' | t }}</em> }
+                  </div>
+                  @if (row.mine) { <span class="mine-tag">{{ 'fees.mine' | t }}</span> }
+                </th>
+                @if (byArea()) {
+                  <td class="share-col">
+                    @if (row.share != null) { {{ money(row.share, t.cost.currency) }} } @else { – }
+                    <div class="area muted">{{ row.areaM2 != null ? row.areaM2 + ' m²' : '? m²' }}</div>
+                  </td>
+                }
+                @for (s of slots(); track s.index) {
+                  @let paidAt = row.paid[s.index];
+                  <td [class.now]="!oneTime() && s.index === currentMonth()">
+                    <button
+                      class="cell"
+                      [class.paid]="!!paidAt"
+                      [class.readonly]="!isAdmin()"
+                      [disabled]="busyCell() === row.unitId + ':' + s.index"
+                      (click)="toggle(row, s.index)"
+                      [title]="paidAt ? ('fees.paidOn' | t: { date: (paidAt | date: 'mediumDate' : undefined : i18n.locale()) ?? '' }) : ('fees.notPaid' | t)"
+                      [attr.aria-label]="label(row) + ' ' + s.long + ': ' + (paidAt ? '✓' : '–')"
+                    >
+                      {{ paidAt ? '✓' : '' }}
+                    </button>
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th class="apt-col">Σ</th>
+              @if (byArea()) { <td class="share-col">{{ money(t.cost.amount, t.cost.currency) }}</td> }
+              @for (s of slots(); track s.index) {
+                <td [class.now]="!oneTime() && s.index === currentMonth()">{{ paidPerSlot()[$index] }}/{{ t.rows.length }}</td>
+              }
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    }
+  } @else if (list.length) {
+    <div class="spinner"></div>
+  }
+
+  <!-- admin: apartments and area -->
+  @if (isAdmin()) {
+    <div class="card admin-box">
+      <h2>{{ 'fees.units' | t }}</h2>
+      <p class="muted small">{{ 'fees.unitsHint' | t }}</p>
+      <div class="unit-list">
+        @for (u of units(); track u.id) {
+          <div class="unit-row">
+            <div class="unit-info">
+              <strong>{{ label(u) }}</strong>
+              <span class="who">
+                @if (u.residents.length) { {{ u.residents.join(', ') }} } @else { <em>{{ 'fees.noUsers' | t }}</em> }
+              </span>
+            </div>
+            <label class="area-input">
+              <input
+                class="input"
+                type="number"
+                min="0"
+                step="0.01"
+                inputmode="decimal"
+                [value]="u.areaM2 ?? ''"
+                (change)="saveArea(u, $any($event.target).value)"
+                [attr.aria-label]="label(u) + ' m²'"
+              />
+              <span>m²</span>
+            </label>
+            @if (!u.residents.length) {
+              <button class="remove" (click)="removeUnit(u)" [title]="'fees.removeTitle' | t">✕</button>
+            } @else {
+              <span class="remove-placeholder"></span>
+            }
+          </div>
+        }
+      </div>
+
+      <form class="add-unit" (ngSubmit)="addUnit()">
+        <h3>{{ 'fees.addUnit' | t }}</h3>
+        <div class="row three">
           <div class="form-group">
             <label for="nf">{{ 'common.floor' | t }}</label>
             <input id="nf" name="floor" maxlength="10" [(ngModel)]="newFloor" />
@@ -122,6 +197,10 @@
           <div class="form-group">
             <label for="na">{{ 'common.apartment' | t }}</label>
             <input id="na" name="apartment" maxlength="10" [(ngModel)]="newApartment" />
+          </div>
+          <div class="form-group">
+            <label for="nm">{{ 'fees.area' | t }}</label>
+            <input id="nm" name="area" type="number" min="0" step="0.01" inputmode="decimal" [(ngModel)]="newArea" />
           </div>
         </div>
         <button class="btn btn-secondary btn-small" type="submit" [disabled]="!newFloor.trim() || !newApartment.trim()">
@@ -132,4 +211,86 @@
   }
 } @else {
   <div class="spinner"></div>
+}
+
+<!-- create / edit cost -->
+@if (editing(); as e) {
+  <div class="modal-overlay" (click)="editing.set(null)">
+    <form class="modal cost-modal" (click)="$event.stopPropagation()" (ngSubmit)="saveCost()">
+      <h2>{{ (e.id ? 'fees.editCost' : 'fees.newCost') | t }}</h2>
+
+      <div class="form-group">
+        <label for="cn">{{ 'fees.name' | t }}</label>
+        <input id="cn" name="name" maxlength="100" [(ngModel)]="e.form.name" [placeholder]="'fees.namePlaceholder' | t" />
+      </div>
+      <div class="form-group">
+        <label for="cd">{{ 'fees.description' | t }}</label>
+        <textarea id="cd" name="description" rows="2" maxlength="500" [(ngModel)]="e.form.description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <span class="label">{{ 'fees.type' | t }}</span>
+        <div class="choices">
+          <label><input type="radio" name="type" value="PER_APARTMENT" [(ngModel)]="e.form.type" /> {{ 'fees.typePerApartment' | t }}</label>
+          <label><input type="radio" name="type" value="BY_AREA" [(ngModel)]="e.form.type" /> {{ 'fees.typeByArea' | t }}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group">
+          <label for="ca">{{ (e.form.type === 'BY_AREA' ? 'fees.amountTotal' : 'fees.amountPerApartment') | t }}</label>
+          <input id="ca" name="amount" type="number" min="0" step="0.01" inputmode="decimal" [(ngModel)]="e.form.amount" />
+        </div>
+        <div class="form-group currency">
+          <label for="cc">{{ 'fees.currency' | t }}</label>
+          <input id="cc" name="currency" maxlength="3" [(ngModel)]="e.form.currency" style="text-transform:uppercase" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <span class="label">{{ 'fees.recurrence' | t }}</span>
+        <div class="choices inline">
+          <label><input type="radio" name="recurrence" value="MONTHLY" [(ngModel)]="e.form.recurrence" /> {{ 'fees.monthly' | t }}</label>
+          <label><input type="radio" name="recurrence" value="ONE_TIME" [(ngModel)]="e.form.recurrence" /> {{ 'fees.oneTime' | t }}</label>
+        </div>
+      </div>
+      @if (e.form.recurrence === 'ONE_TIME') {
+        <div class="form-group">
+          <label for="cdue">{{ 'fees.dueDate' | t }}</label>
+          <input id="cdue" name="dueDate" type="date" [(ngModel)]="e.form.dueDate" />
+        </div>
+      }
+
+      <div class="form-group">
+        <span class="label">{{ 'fees.appliesTo' | t }}</span>
+        <div class="choices inline">
+          <label><input type="radio" name="all" [value]="true" [(ngModel)]="e.form.appliesToAll" /> {{ 'fees.allUnits' | t }}</label>
+          <label><input type="radio" name="all" [value]="false" [(ngModel)]="e.form.appliesToAll" /> {{ 'fees.someUnits' | t }}</label>
+        </div>
+        @if (!e.form.appliesToAll) {
+          <div class="unit-picker">
+            @for (u of units(); track u.id) {
+              <label class="pick">
+                <input
+                  type="checkbox"
+                  [checked]="e.form.unitIds.includes(u.id)"
+                  (change)="toggleUnit(e.form, u.id, $any($event.target).checked)"
+                />
+                <strong>{{ label(u) }}</strong>
+                <span class="muted">{{ u.residents.join(', ') }}</span>
+              </label>
+            }
+          </div>
+          @if (!e.form.unitIds.length) { <div class="field-error">{{ 'fees.chooseUnits' | t }}</div> }
+        }
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="editing.set(null)">{{ 'common.cancel' | t }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!canSave(e.form) || saving()">
+          {{ (saving() ? 'common.saving' : 'common.save') | t }}
+        </button>
+      </div>
+    </form>
+  </div>
 }
