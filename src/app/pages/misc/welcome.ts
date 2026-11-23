@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { I18nKey, I18nService, TranslatePipe, hasSavedLang } from '../../core/i18n/i18n';
@@ -36,8 +36,38 @@ export class WelcomePage {
 
   protected readonly perks: I18nKey[] = ['welcome.p1', 'welcome.p2', 'welcome.p3', 'welcome.p4'];
 
+  /**
+   * Phone demo timeline. Steps:
+   * 0 idle · 1 poll notification · 2 poll card · 3 votes fill · 4 message notification · 5 typing · 6 message · 7 hold.
+   */
+  private static readonly STEP_MS = [1200, 2200, 1000, 1800, 2200, 1300, 3500, 1500];
+  private static readonly LAST = 7;
+  protected readonly step = signal(0);
+
+  protected readonly bannerVisible = computed(() => this.step() === 1 || this.step() === 4);
+  /** Content stays while the banner slides out, so it doesn't vanish mid-animation. */
+  protected readonly banner = computed<{ title: I18nKey; text: I18nKey }>(() =>
+    this.step() >= 4 && this.step() <= 6
+      ? { title: 'welcome.demo.pushMsgTitle', text: 'welcome.demo.pushMsgText' }
+      : { title: 'welcome.demo.pushPollTitle', text: 'welcome.demo.pollTitle' },
+  );
+
   constructor() {
     // People arriving from the printed QR get Serbian unless they already picked a language.
     if (!hasSavedLang()) inject(I18nService).set('sr');
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.step.set(WelcomePage.LAST); // finished screen, no motion
+      return;
+    }
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      timer = setTimeout(() => {
+        this.step.update((s) => (s >= WelcomePage.LAST ? 0 : s + 1));
+        tick();
+      }, WelcomePage.STEP_MS[this.step()]);
+    };
+    tick();
+    inject(DestroyRef).onDestroy(() => clearTimeout(timer));
   }
 }

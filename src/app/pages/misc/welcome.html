@@ -27,19 +27,41 @@
         </div>
       </div>
 
-      <!-- Phone preview: a simple picture of what residents see -->
+      <!-- Phone preview: a short looping story of what residents see (see WelcomePage.step) -->
       <div class="phone" aria-hidden="true">
         <div class="phone-screen">
+          <!-- push notification banner -->
+          <div class="push" [class.show]="bannerVisible()">
+            <span class="push-icon">E</span>
+            <div>
+              <div class="push-head"><strong>Entry</strong><span>{{ 'welcome.demo.now' | t }}</span></div>
+              <div class="push-title">{{ banner().title | t }}</div>
+              <div class="push-text">{{ banner().text | t }}</div>
+            </div>
+          </div>
+
           <div class="msg notice">
             <strong>{{ 'welcome.demo.noticeTitle' | t }}</strong>
             <span>{{ 'welcome.demo.noticeText' | t }}</span>
           </div>
-          <div class="msg poll">
-            <strong>{{ 'welcome.demo.pollTitle' | t }}</strong>
-            <div class="bar"><span style="width: 78%"></span><em>{{ 'welcome.demo.yes' | t }} 78%</em></div>
-            <div class="bar"><span style="width: 22%"></span><em>{{ 'welcome.demo.no' | t }} 22%</em></div>
-          </div>
-          <div class="msg chat">{{ 'welcome.demo.chat' | t }}</div>
+
+          @if (step() >= 2) {
+            <div class="msg poll pop">
+              <strong>{{ 'welcome.demo.pollTitle' | t }}</strong>
+              <div class="bar"><span [style.width.%]="step() >= 3 ? 78 : 0"></span><em>{{ 'welcome.demo.yes' | t }} {{ step() >= 3 ? 78 : 0 }}%</em></div>
+              <div class="bar"><span [style.width.%]="step() >= 3 ? 22 : 0"></span><em>{{ 'welcome.demo.no' | t }} {{ step() >= 3 ? 22 : 0 }}%</em></div>
+            </div>
+          }
+
+          @if (step() === 5) {
+            <div class="msg typing pop"><i></i><i></i><i></i></div>
+          }
+          @if (step() >= 6) {
+            <div class="msg chat pop">
+              <small>{{ 'welcome.demo.chatFrom' | t }}</small>
+              {{ 'welcome.demo.chat' | t }}
+            </div>
+          }
         </div>
       </div>
     </div>

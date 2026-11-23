@@ -75,16 +75,54 @@ h1 {
 }
 .phone-screen {
   background: #f1f5f9; border-radius: 30px; padding: 28px 14px;
-  display: flex; flex-direction: column; gap: 12px; min-height: 340px;
+  display: flex; flex-direction: column; gap: 12px; height: 400px;
+  position: relative; overflow: hidden;
 }
 .msg { background: #fff; border-radius: 16px; padding: 14px; font-size: 0.95rem; line-height: 1.4; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 .msg strong { display: block; margin-bottom: 4px; }
 .msg.notice { border-left: 5px solid #f59e0b; }
 .msg.notice span { color: var(--ink-soft); }
 .bar { position: relative; height: 30px; background: #f1f5f9; border-radius: 8px; margin-top: 8px; overflow: hidden; }
-.bar span { position: absolute; inset: 0 auto 0 0; background: #bfdbfe; }
+.bar span { position: absolute; inset: 0 auto 0 0; background: #bfdbfe; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
 .bar em { position: relative; font-style: normal; font-weight: 600; font-size: 0.85rem; line-height: 30px; padding-left: 10px; }
 .msg.chat { align-self: flex-end; max-width: 85%; background: var(--blue); color: #fff; border-bottom-right-radius: 4px; }
+.msg.chat small { display: block; font-size: 0.75rem; font-weight: 600; opacity: 0.8; }
+
+/* push notification sliding in from the top of the screen */
+.push {
+  position: absolute; top: 10px; left: 8px; right: 8px; z-index: 2;
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 12px; border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+  font-size: 0.85rem; line-height: 1.35;
+  transform: translateY(-130%); opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
+}
+.push.show { transform: translateY(0); opacity: 1; }
+.push-icon {
+  flex: none; width: 34px; height: 34px; border-radius: 9px;
+  background: var(--blue); color: #fff; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.push-head { display: flex; justify-content: space-between; color: #64748b; font-size: 0.75rem; }
+.push-head strong { color: #64748b; }
+.push-title { font-weight: 700; }
+.push-text { color: var(--ink-soft); }
+
+/* new card / bubble popping in */
+.pop { animation: pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+/* "typing..." dots */
+.msg.typing { align-self: flex-end; display: flex; gap: 5px; padding: 14px 16px; background: #dbeafe; }
+.typing i { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); animation: dot 1s infinite; }
+.typing i:nth-child(2) { animation-delay: 0.15s; }
+.typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot { 0%, 60%, 100% { opacity: 0.3; transform: none; } 30% { opacity: 1; transform: translateY(-4px); } }
 
 /* ---- sections ---- */
 .section { padding: 72px 0; }
@@ -147,5 +185,6 @@ p { color: var(--ink-soft); }
   .btn-big { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn-big, .feature { transition: none; }
+  .btn-big, .feature, .bar span, .push { transition: none; }
+  .pop, .typing i { animation: none; }
 }
