@@ -42,6 +42,7 @@ import { LangSwitch } from '../../shared/lang-switch';
         <div class="links">
           {{ 'login.noAccount' | t }} <a routerLink="/register">{{ 'login.create' | t }}</a>
         </div>
+        <div class="links"><a routerLink="/welcome">{{ 'login.learnMore' | t }}</a></div>
       </div>
     </div>
   `,

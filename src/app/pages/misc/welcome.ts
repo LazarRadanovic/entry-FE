@@ -1,0 +1,43 @@
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/auth.service';
+import { I18nKey, I18nService, TranslatePipe, hasSavedLang } from '../../core/i18n/i18n';
+import { LangSwitch } from '../../shared/lang-switch';
+
+type Icon = 'board' | 'chat' | 'vote' | 'costs' | 'tools' | 'bell';
+
+/**
+ * Public promo page (the printed QR code points here). No login needed.
+ * Written for all ages: big type, high contrast, short sentences, large buttons.
+ */
+@Component({
+  selector: 'app-welcome',
+  imports: [RouterLink, TranslatePipe, LangSwitch],
+  templateUrl: './welcome.html',
+  styleUrl: './welcome.css',
+})
+export class WelcomePage {
+  protected readonly auth = inject(AuthService);
+
+  protected readonly features: { icon: Icon; title: I18nKey; text: I18nKey }[] = [
+    { icon: 'board', title: 'welcome.f.board', text: 'welcome.f.boardText' },
+    { icon: 'chat', title: 'welcome.f.chat', text: 'welcome.f.chatText' },
+    { icon: 'vote', title: 'welcome.f.vote', text: 'welcome.f.voteText' },
+    { icon: 'costs', title: 'welcome.f.costs', text: 'welcome.f.costsText' },
+    { icon: 'tools', title: 'welcome.f.tools', text: 'welcome.f.toolsText' },
+    { icon: 'bell', title: 'welcome.f.bell', text: 'welcome.f.bellText' },
+  ];
+
+  protected readonly steps: { title: I18nKey; text: I18nKey }[] = [
+    { title: 'welcome.s1', text: 'welcome.s1Text' },
+    { title: 'welcome.s2', text: 'welcome.s2Text' },
+    { title: 'welcome.s3', text: 'welcome.s3Text' },
+  ];
+
+  protected readonly perks: I18nKey[] = ['welcome.p1', 'welcome.p2', 'welcome.p3', 'welcome.p4'];
+
+  constructor() {
+    // People arriving from the printed QR get Serbian unless they already picked a language.
+    if (!hasSavedLang()) inject(I18nService).set('sr');
+  }
+}

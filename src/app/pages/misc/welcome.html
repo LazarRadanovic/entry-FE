@@ -1,0 +1,141 @@
+<div class="welcome">
+  <!-- ===== Top bar ===== -->
+  <header class="top">
+    <div class="wrap top-row">
+      <a routerLink="/welcome" class="brand" aria-label="Entry">
+        <span class="brand-icon">E</span>
+        <span>Entry</span>
+      </a>
+      <app-lang-switch />
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge">{{ 'welcome.trialBadge' | t }}</span>
+        <h1>{{ 'welcome.heroTitle' | t }}</h1>
+        <p class="lead">{{ 'welcome.heroText' | t }}</p>
+        <div class="cta">
+          @if (auth.isLoggedIn()) {
+            <a class="btn-big primary" [routerLink]="auth.homeUrl()">{{ 'welcome.ctaOpen' | t }}</a>
+          } @else {
+            <a class="btn-big primary" routerLink="/register">{{ 'welcome.ctaStart' | t }}</a>
+            <a class="btn-big outline" routerLink="/login">{{ 'welcome.ctaLogin' | t }}</a>
+          }
+        </div>
+      </div>
+
+      <!-- Phone preview: a simple picture of what residents see -->
+      <div class="phone" aria-hidden="true">
+        <div class="phone-screen">
+          <div class="msg notice">
+            <strong>{{ 'welcome.demo.noticeTitle' | t }}</strong>
+            <span>{{ 'welcome.demo.noticeText' | t }}</span>
+          </div>
+          <div class="msg poll">
+            <strong>{{ 'welcome.demo.pollTitle' | t }}</strong>
+            <div class="bar"><span style="width: 78%"></span><em>{{ 'welcome.demo.yes' | t }} 78%</em></div>
+            <div class="bar"><span style="width: 22%"></span><em>{{ 'welcome.demo.no' | t }} 22%</em></div>
+          </div>
+          <div class="msg chat">{{ 'welcome.demo.chat' | t }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Features ===== -->
+  <section class="section">
+    <div class="wrap">
+      <h2>{{ 'welcome.featuresTitle' | t }}</h2>
+      <div class="features">
+        @for (f of features; track f.icon) {
+          <article class="feature">
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                @switch (f.icon) {
+                  @case ('board') {
+                    <path d="M3 11l18-7v16L3 13z" /><path d="M7 12.5V18a2 2 0 0 0 4 0v-4" />
+                  }
+                  @case ('chat') {
+                    <path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z" />
+                  }
+                  @case ('vote') {
+                    <path d="M9 11l3 3 8-8" /><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9" />
+                  }
+                  @case ('costs') {
+                    <rect x="3" y="6" width="18" height="13" rx="2" /><path d="M3 10h18" /><path d="M7 15h4" />
+                  }
+                  @case ('tools') {
+                    <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z" />
+                  }
+                  @case ('bell') {
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0" />
+                  }
+                }
+              </svg>
+            </div>
+            <h3>{{ f.title | t }}</h3>
+            <p>{{ f.text | t }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== How it starts ===== -->
+  <section class="section soft">
+    <div class="wrap">
+      <h2>{{ 'welcome.stepsTitle' | t }}</h2>
+      <ol class="steps">
+        @for (s of steps; track s.title; let i = $index) {
+          <li>
+            <span class="num">{{ i + 1 }}</span>
+            <div>
+              <h3>{{ s.title | t }}</h3>
+              <p>{{ s.text | t }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== Easy for everyone ===== -->
+  <section class="section">
+    <div class="wrap narrow">
+      <h2>{{ 'welcome.easyTitle' | t }}</h2>
+      <ul class="perks">
+        @for (p of perks; track p) {
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7" /></svg>
+            <span>{{ p | t }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Final call to action ===== -->
+  <section class="final">
+    <div class="wrap narrow center">
+      <h2>{{ 'welcome.finalTitle' | t }}</h2>
+      <p class="lead">{{ 'welcome.finalText' | t }}</p>
+      <div class="cta center">
+        @if (auth.isLoggedIn()) {
+          <a class="btn-big light" [routerLink]="auth.homeUrl()">{{ 'welcome.ctaOpen' | t }}</a>
+        } @else {
+          <a class="btn-big light" routerLink="/register">{{ 'welcome.ctaStart' | t }}</a>
+          <a class="btn-big ghost" routerLink="/login">{{ 'welcome.ctaLogin' | t }}</a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">Entry · {{ 'welcome.footer' | t }}</div>
+  </footer>
+</div>

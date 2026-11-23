@@ -9,6 +9,12 @@ export type Params = Record<string, string | number>;
 const STORAGE_KEY = 'entry.lang';
 const DICTIONARIES: Record<Lang, Record<I18nKey, string>> = { en, sr };
 
+/** True once the user has picked a language (or one was saved earlier). */
+export function hasSavedLang(): boolean {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved === 'en' || saved === 'sr';
+}
+
 function initialLang(): Lang {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved === 'en' || saved === 'sr') return saved;

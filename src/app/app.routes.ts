@@ -8,6 +8,11 @@ export const routes: Routes = [
 
   // ---- public / standalone pages ----
   {
+    path: 'welcome',
+    title: 'welcome.title',
+    loadComponent: () => import('./pages/misc/welcome').then((m) => m.WelcomePage),
+  },
+  {
     path: 'login',
     canActivate: [guestGuard],
     title: 'login.submit',
