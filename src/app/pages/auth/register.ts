@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService, RegisterRequest } from '../../core/auth.service';
 import { errorMessage, fieldErrors } from '../../core/errors';
 import { TranslatePipe, translate } from '../../core/i18n/i18n';
@@ -119,7 +119,10 @@ export class RegisterPage {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  protected readonly mode = signal<Mode>('invite');
+  /** `?mode=create` (from the welcome prize popup) opens on "new entrance" instead of "join with code". */
+  protected readonly mode = signal<Mode>(
+    inject(ActivatedRoute).snapshot.queryParamMap.get('mode') === 'create' ? 'create' : 'invite',
+  );
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly errors = signal<Record<string, string>>({});

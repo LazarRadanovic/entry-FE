@@ -6,17 +6,25 @@ import { errorMessage } from '../../core/errors';
 import { Post } from '../../core/models';
 import { RealtimeService } from '../../core/realtime.service';
 import { PostCard } from '../../shared/post-card';
+import { AnnouncementStrip } from '../announcements/announcement-strip';
 import { TranslatePipe } from '../../core/i18n/i18n';
 
 /** Template #7. Live: new posts appear on top, like/comment counts update. */
 @Component({
   selector: 'app-feed',
-  imports: [PostCard, RouterLink, RouterOutlet, TranslatePipe],
+  imports: [PostCard, AnnouncementStrip, RouterLink, RouterOutlet, TranslatePipe],
   template: `
     <div class="page-header">
       <h1 class="page-title">{{ 'feed.title' | t }}</h1>
       <a routerLink="/new-post" class="btn btn-primary btn-small">{{ 'feed.newPost' | t }}</a>
     </div>
+
+    <nav class="quick-links">
+      <a routerLink="/announcements">📢 {{ 'nav.announcements' | t }}</a>
+      <a routerLink="/lost-found">🔑 {{ 'nav.lostFound' | t }}</a>
+    </nav>
+
+    <app-announcement-strip />
 
     @if (loading()) {
       @for (i of [1, 2, 3]; track i) {
@@ -50,6 +58,9 @@ import { TranslatePipe } from '../../core/i18n/i18n';
     <router-outlet />
   `,
   styles: `
+    .quick-links { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; }
+    .quick-links a { flex-shrink: 0; background: var(--card); box-shadow: var(--shadow); border-radius: 16px; padding: 6px 14px; font-size: 0.85rem; color: inherit; text-decoration: none; }
+    @media (min-width: 900px) { .quick-links { display: none; } }
     .sk { padding: 16px; margin-bottom: 16px; }
     .sk-head { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
     .circle { width: 40px; height: 40px; border-radius: 50%; }

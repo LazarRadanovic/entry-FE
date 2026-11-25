@@ -116,6 +116,58 @@ export interface Poll {
   createdAt: string;
 }
 
+export type AnnouncementKind = 'RENOVATION' | 'CELEBRATION' | 'MOVING' | 'OTHER';
+
+/** Planned noise. Dates are "YYYY-MM-DD" (inclusive); times "HH:mm:ss" (both null = all day). */
+export interface Announcement {
+  id: string;
+  author: Resident;
+  kind: AnnouncementKind;
+  startDate: string;
+  endDate: string;
+  fromTime: string | null;
+  toTime: string | null;
+  note: string | null;
+  ongoing: boolean;
+  createdAt: string;
+}
+
+export interface AnnouncementRequest {
+  kind: AnnouncementKind;
+  startDate: string;
+  endDate: string;
+  fromTime: string | null;
+  toTime: string | null;
+  note: string | null;
+}
+
+export type LostFoundKind = 'FOUND' | 'LOST';
+export type LostFoundCategory = 'KEYS' | 'PACKAGE' | 'PET' | 'TOY' | 'DOCUMENTS' | 'CLOTHING' | 'OTHER';
+
+/** responders: neighbours who said "it's mine" (FOUND) / "I found it" (LOST). resolvedAt: null while open. */
+export interface LostFoundItem {
+  id: string;
+  author: Resident;
+  kind: LostFoundKind;
+  category: LostFoundCategory;
+  title: string;
+  description: string | null;
+  location: string | null;
+  photo: FileDto | null;
+  responders: Resident[];
+  resolvedAt: string | null;
+  createdAt: string;
+}
+
+export interface LostFoundRequest {
+  kind: LostFoundKind;
+  category: LostFoundCategory;
+  title: string;
+  description: string | null;
+  location: string | null;
+  photoFileId: string | null;
+}
+
 export type NotificationType =
   | 'NEW_POST'
   | 'NEW_POLL'
@@ -123,7 +175,10 @@ export type NotificationType =
   | 'POST_LIKED'
   | 'JOIN_REQUEST'
   | 'MEMBERSHIP_APPROVED'
-  | 'TRIAL_ENDING';
+  | 'TRIAL_ENDING'
+  | 'NEW_ANNOUNCEMENT'
+  | 'NEW_LOST_FOUND'
+  | 'LOST_FOUND_RESPONSE';
 
 export interface AppNotification {
   id: string;
@@ -148,7 +203,8 @@ export type BillingState = 'TRIAL' | 'ACTIVE' | 'PAST_DUE' | 'EXPIRED' | 'FREE';
 export interface Billing {
   enabled: boolean;
   state: BillingState;
-  accessAllowed: boolean;
+  /** Trial over without a subscription: everything can be read, nothing posted or changed. */
+  readOnly: boolean;
   trialEndsAt: string;
   trialDaysLeft: number | null;
   currentPeriodEnd: string | null;

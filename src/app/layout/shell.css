@@ -76,6 +76,7 @@
   text-decoration: none;
 }
 .billing-banner.urgent { background: #fef3c7; color: #92400e; }
+.billing-banner.readonly { background: #fef3c7; color: #92400e; }
 
 /* ===== BOTTOM NAV (mobile) ===== */
 .bottom-nav {

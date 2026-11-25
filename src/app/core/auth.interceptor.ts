@@ -23,9 +23,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(withToken(auth.accessToken)).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse && err.status === 402) {
-        // trial over, no subscription: refresh the status and let the guard pick the right page
-        billing.clear();
-        router.navigateByUrl(auth.isAdmin() ? '/billing' : '/locked');
+        // trial over, no subscription: the entrance is read-only. Refresh the status so the banner shows;
+        // the page shows the (translated) error for the action that was refused.
+        billing.load().subscribe();
         return throwError(() => err);
       }
       if (!(err instanceof HttpErrorResponse) || err.status !== 401) {

@@ -1,0 +1,153 @@
+<div class="page-header">
+  <h1 class="page-title">{{ 'lf.title' | t }}</h1>
+</div>
+
+<div class="add-row">
+  <button class="btn btn-primary btn-small" (click)="add('FOUND')">🙌 {{ 'lf.addFound' | t }}</button>
+  <button class="btn btn-secondary btn-small" (click)="add('LOST')">🔍 {{ 'lf.addLost' | t }}</button>
+</div>
+
+<div class="tabs">
+  <button class="tab" [class.active]="tab() === 'OPEN'" (click)="switchTab('OPEN')">{{ 'lf.open' | t }}</button>
+  <button class="tab" [class.active]="tab() === 'RESOLVED'" (click)="switchTab('RESOLVED')">{{ 'lf.resolved' | t }}</button>
+</div>
+
+<div class="chips">
+  <button class="chip" [class.active]="kindFilter() === null" (click)="setKind(null)">{{ 'lf.all' | t }}</button>
+  <button class="chip" [class.active]="kindFilter() === 'FOUND'" (click)="setKind('FOUND')">{{ 'lf.kind.FOUND' | t }}</button>
+  <button class="chip" [class.active]="kindFilter() === 'LOST'" (click)="setKind('LOST')">{{ 'lf.kind.LOST' | t }}</button>
+</div>
+
+@if (items(); as list) {
+  @for (i of list; track i.id) {
+    <div class="item" [class.lost]="i.kind === 'LOST'" [class.done]="i.resolvedAt">
+      <div class="item-top">
+        @if (i.photo) {
+          <img class="photo" [src]="i.photo.thumbnailUrl" [alt]="i.title" (click)="lightbox.open(i.photo.url)" />
+        } @else {
+          <div class="photo placeholder">{{ icon(i.category) }}</div>
+        }
+        <div class="item-main">
+          <div class="badges">
+            <span class="kind-badge" [class.lost]="i.kind === 'LOST'">{{ kindLabel(i.kind) | t }}</span>
+            <span class="cat">{{ icon(i.category) }} {{ categoryLabel(i.category) | t }}</span>
+            @if (i.resolvedAt) { <span class="done-badge">✓ {{ (i.kind === 'FOUND' ? 'lf.returned' : 'lf.foundIt') | t }}</span> }
+          </div>
+          <div class="item-title">{{ i.title }}</div>
+          @if (i.location) { <div class="meta">📍 {{ i.location }}</div> }
+        </div>
+        @if (canEdit(i)) {
+          <div class="tools">
+            @if (!i.resolvedAt) {
+              <button class="icon-btn small" [title]="'lf.edit' | t" (click)="edit(i)">✏️</button>
+            }
+            <button class="icon-btn small" [title]="'lf.delete' | t" (click)="delete(i)">🗑️</button>
+          </div>
+        }
+      </div>
+
+      @if (i.description) { <div class="desc">{{ i.description }}</div> }
+
+      <div class="author">
+        <app-avatar [person]="i.author" [size]="22" />
+        {{ i.author.firstName }} {{ i.author.lastName }} · {{ 'common.floorApt' | t: { floor: i.author.floor, apt: i.author.apartment } }} · {{ i.createdAt | timeAgo }}
+      </div>
+
+      @if (i.responders.length) {
+        <div class="responders">🙋 {{ respondersText(i) }}</div>
+      }
+
+      @if (!i.resolvedAt) {
+        <div class="actions">
+          @if (!isMine(i)) {
+            <button class="btn btn-small" [class.btn-primary]="!respondedByMe(i)" [class.btn-secondary]="respondedByMe(i)"
+              [disabled]="busy() === i.id" (click)="respond(i)">
+              @if (respondedByMe(i)) {
+                ✓ {{ (i.kind === 'FOUND' ? 'lf.saidMine' : 'lf.saidFound') | t }}
+              } @else {
+                {{ (i.kind === 'FOUND' ? 'lf.itsMine' : 'lf.iFoundIt') | t }}
+              }
+            </button>
+          }
+          @if (canEdit(i)) {
+            <button class="btn btn-secondary btn-small" [disabled]="busy() === i.id" (click)="setResolved(i, true)">
+              ✓ {{ (i.kind === 'FOUND' ? 'lf.markReturned' : 'lf.markFound') | t }}
+            </button>
+          }
+        </div>
+      } @else if (canEdit(i)) {
+        <div class="actions">
+          <button class="btn btn-ghost btn-small" [disabled]="busy() === i.id" (click)="setResolved(i, false)">{{ 'lf.reopen' | t }}</button>
+        </div>
+      }
+    </div>
+  } @empty {
+    <div class="empty-state">
+      <div class="emoji">🔑</div>
+      {{ (tab() === 'OPEN' ? 'lf.emptyOpen' : 'lf.emptyResolved') | t }}
+    </div>
+  }
+} @else {
+  <div class="spinner"></div>
+}
+
+@if (editing(); as e) {
+  <div class="modal-overlay" (click)="editing.set(null)">
+    <form class="modal" (click)="$event.stopPropagation()" (ngSubmit)="save()">
+      <h2>{{ (e.id ? 'lf.editTitle' : e.form.kind === 'FOUND' ? 'lf.addFound' : 'lf.addLost') | t }}</h2>
+
+      <div class="kind-switch">
+        <button type="button" [class.active]="e.form.kind === 'FOUND'" (click)="e.form.kind = 'FOUND'">🙌 {{ 'lf.kind.FOUND' | t }}</button>
+        <button type="button" [class.active]="e.form.kind === 'LOST'" (click)="e.form.kind = 'LOST'">🔍 {{ 'lf.kind.LOST' | t }}</button>
+      </div>
+
+      <div class="cat-grid">
+        @for (c of categories; track c.value) {
+          <button type="button" class="cat-btn" [class.active]="e.form.category === c.value" (click)="e.form.category = c.value">
+            <span>{{ c.icon }}</span>{{ categoryLabel(c.value) | t }}
+          </button>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="lt">{{ 'lf.what' | t }}</label>
+        <input id="lt" name="title" maxlength="100" [(ngModel)]="e.form.title"
+          [placeholder]="(e.form.kind === 'FOUND' ? 'lf.whatFoundPh' : 'lf.whatLostPh') | t" />
+      </div>
+      <div class="form-group">
+        <label for="ll">{{ 'lf.where' | t }}</label>
+        <input id="ll" name="location" maxlength="100" [(ngModel)]="e.form.location" [placeholder]="'lf.wherePh' | t" />
+      </div>
+      <div class="form-group">
+        <label for="ld">{{ 'lf.details' | t }}</label>
+        <textarea id="ld" name="description" maxlength="1000" [(ngModel)]="e.form.description"
+          [placeholder]="(e.form.kind === 'FOUND' ? 'lf.detailsFoundPh' : 'lf.detailsLostPh') | t"></textarea>
+      </div>
+
+      <div class="photo-edit">
+        @if (e.preview) {
+          <img class="photo" [src]="e.preview" alt="" [class.dim]="e.uploading" />
+        } @else {
+          <div class="photo placeholder">{{ icon(e.form.category) }}</div>
+        }
+        <div class="photo-buttons">
+          <label class="btn btn-secondary btn-small">
+            📷 {{ 'lf.addPhoto' | t }}
+            <input type="file" accept="image/*" hidden (change)="onPhoto($event)" />
+          </label>
+          @if (e.preview) {
+            <button type="button" class="btn btn-ghost btn-small" (click)="removePhoto()">{{ 'lf.removePhoto' | t }}</button>
+          }
+        </div>
+      </div>
+      @if (!e.id) { <p class="muted hint">{{ 'lf.notifyHint' | t }}</p> }
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="editing.set(null)">{{ 'common.cancel' | t }}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!canSave(e)">
+          {{ (saving() ? 'common.saving' : e.id ? 'common.save' : 'lf.publish') | t }}
+        </button>
+      </div>
+    </form>
+  </div>
+}

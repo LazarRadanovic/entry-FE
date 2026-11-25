@@ -9,7 +9,7 @@ export class BillingService {
   private readonly api = inject(ApiService);
 
   readonly billing = signal<Billing | null>(null);
-  readonly locked = computed(() => this.billing()?.accessAllowed === false);
+  readonly readOnly = computed(() => this.billing()?.readOnly === true);
 
   load(): Observable<Billing | null> {
     return this.api.billing().pipe(

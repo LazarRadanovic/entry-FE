@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  Announcement,
+  AnnouncementRequest,
   AppNotification,
   Billing,
   ChatMessage,
@@ -15,6 +17,9 @@ import {
   CraftsmanRequest,
   FileDto,
   LikeResponse,
+  LostFoundItem,
+  LostFoundKind,
+  LostFoundRequest,
   Member,
   MyCosts,
   NotificationSettings,
@@ -195,6 +200,42 @@ export class ApiService {
   }
   removeUnit(id: string): Observable<void> {
     return this.http.delete<void>(`/api/admin/units/${id}`);
+  }
+
+  // ---- noise announcements ----
+  announcements(status: 'ACTIVE' | 'PAST'): Observable<Announcement[]> {
+    return this.http.get<Announcement[]>('/api/announcements', { params: { status } });
+  }
+  createAnnouncement(body: AnnouncementRequest): Observable<Announcement> {
+    return this.http.post<Announcement>('/api/announcements', body);
+  }
+  updateAnnouncement(id: string, body: AnnouncementRequest): Observable<Announcement> {
+    return this.http.put<Announcement>(`/api/announcements/${id}`, body);
+  }
+  deleteAnnouncement(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/announcements/${id}`);
+  }
+
+  // ---- lost & found ----
+  lostFound(status: 'OPEN' | 'RESOLVED', kind?: LostFoundKind | null): Observable<LostFoundItem[]> {
+    return this.http.get<LostFoundItem[]>('/api/lost-found', { params: kind ? { status, kind } : { status } });
+  }
+  createLostFound(body: LostFoundRequest): Observable<LostFoundItem> {
+    return this.http.post<LostFoundItem>('/api/lost-found', body);
+  }
+  updateLostFound(id: string, body: LostFoundRequest): Observable<LostFoundItem> {
+    return this.http.put<LostFoundItem>(`/api/lost-found/${id}`, body);
+  }
+  deleteLostFound(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/lost-found/${id}`);
+  }
+  respondLostFound(id: string, respond: boolean): Observable<LostFoundItem> {
+    const url = `/api/lost-found/${id}/response`;
+    return respond ? this.http.put<LostFoundItem>(url, {}) : this.http.delete<LostFoundItem>(url);
+  }
+  resolveLostFound(id: string, resolved: boolean): Observable<LostFoundItem> {
+    const url = `/api/lost-found/${id}/resolved`;
+    return resolved ? this.http.put<LostFoundItem>(url, {}) : this.http.delete<LostFoundItem>(url);
   }
 
   // ---- craftsmen ----

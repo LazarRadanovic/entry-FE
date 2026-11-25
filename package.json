@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "promo": "node scripts/make-promo.mjs"
   },
   "private": true,
   "packageManager": "npm@11.16.0",
@@ -27,6 +28,7 @@
     "@angular/cli": "^22.0.9",
     "@angular/compiler-cli": "^22.0.0",
     "prettier": "^3.8.1",
+    "qrcode": "^1.5.4",
     "typescript": "~6.0.2"
   }
 }

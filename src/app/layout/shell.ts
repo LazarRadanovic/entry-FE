@@ -24,7 +24,7 @@ import { I18nKey, I18nService, TranslatePipe } from '../core/i18n/i18n';
         </div>
       </div>
       <div class="topbar-right">
-        @if (!realtime.connected() && !billing.locked()) {
+        @if (!realtime.connected()) {
           <span class="conn" [title]="'shell.reconnecting' | t">●</span>
         }
         <app-lang-switch class="lang" />
@@ -53,7 +53,15 @@ import { I18nKey, I18nService, TranslatePipe } from '../core/i18n/i18n';
     </aside>
 
     <main class="main">
-      @if (banner(); as text) {
+      @if (billing.readOnly() && !url().startsWith('/billing')) {
+        @if (auth.isAdmin()) {
+          <a routerLink="/billing" class="billing-banner readonly">
+            🔒 {{ 'readonly.admin' | t }} <strong>{{ 'shell.subscribe' | t }}</strong>
+          </a>
+        } @else {
+          <div class="billing-banner readonly">🔒 {{ 'readonly.resident' | t }}</div>
+        }
+      } @else if (banner(); as text) {
         <a routerLink="/billing" class="billing-banner" [class.urgent]="billing.billing()?.state !== 'TRIAL'">
           {{ text }} <strong>{{ (billing.billing()?.state === 'PAST_DUE' ? 'shell.fixPayment' : 'shell.subscribe') | t }}</strong>
         </a>
@@ -83,6 +91,8 @@ export class Shell implements OnInit, OnDestroy {
     { path: '/feed', icon: '🏠', label: 'nav.feed', short: 'nav.feed', bottom: true },
     { path: '/chat', icon: '💬', label: 'nav.chat', short: 'nav.chat', bottom: true },
     { path: '/polls', icon: '📊', label: 'nav.polls', short: 'nav.polls', bottom: true },
+    { path: '/announcements', icon: '📢', label: 'nav.announcements', short: 'nav.announcements', bottom: false },
+    { path: '/lost-found', icon: '🔑', label: 'nav.lostFound', short: 'nav.lostFound', bottom: false },
     { path: '/fees', icon: '🧾', label: 'nav.fees', short: 'nav.feesShort', bottom: true },
     { path: '/craftsmen', icon: '🛠️', label: 'nav.craftsmen', short: 'nav.craftsmen', bottom: true },
     { path: '/residents', icon: '👥', label: 'nav.residents', short: 'nav.residents', bottom: true },
@@ -112,8 +122,6 @@ export class Shell implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    // A locked entrance (trial over) can't open live connections; the admin only sees /billing.
-    if (this.billing.locked()) return;
     this.realtime.start();
     this.presence.start();
     this.notifications.start();

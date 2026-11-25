@@ -27,25 +27,12 @@ export const pendingGuard: CanActivateFn = () => {
 };
 
 /**
- * When the entrance's trial ended without a subscription, admins can only open /billing and
- * residents are sent to /locked.
+ * Loads the entrance's billing status before the app opens. A trial that ended without a subscription
+ * never blocks a page: the entrance is read-only and the shell shows a banner.
  */
-export const subscriptionGuard: CanActivateChildFn = async (_route, state) => {
-  const auth = inject(AuthService);
-  const router = inject(Router);
-  const billing = await inject(BillingService).ensureLoaded();
-  if (!billing || billing.accessAllowed) return true;
-  if (auth.isAdmin()) return state.url.startsWith('/billing') || router.parseUrl('/billing');
-  return router.parseUrl('/locked');
-};
-
-/** The "subscription expired" page for residents: only while locked. */
-export const lockedGuard: CanActivateFn = async () => {
-  const auth = inject(AuthService);
-  const router = inject(Router);
-  if (!auth.isLoggedIn()) return router.parseUrl('/login');
-  const billing = await inject(BillingService).ensureLoaded();
-  return billing?.accessAllowed === false || router.parseUrl('/feed');
+export const subscriptionGuard: CanActivateChildFn = async () => {
+  await inject(BillingService).ensureLoaded();
+  return true;
 };
 
 /** Login/register: already logged-in users skip them. */

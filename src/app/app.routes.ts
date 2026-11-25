@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { adminGuard, guestGuard, lockedGuard, memberGuard, pendingGuard, subscriptionGuard } from './core/guards';
+import { adminGuard, guestGuard, memberGuard, pendingGuard, subscriptionGuard } from './core/guards';
 import { Shell } from './layout/shell';
 
 /** `title` values are translation keys (see core/i18n/title-strategy.ts). */
@@ -29,13 +29,6 @@ export const routes: Routes = [
     canActivate: [pendingGuard],
     title: 'pending.title',
     loadComponent: () => import('./pages/auth/pending').then((m) => m.PendingPage),
-  },
-
-  {
-    path: 'locked',
-    canActivate: [lockedGuard],
-    title: 'locked.title',
-    loadComponent: () => import('./pages/billing/locked').then((m) => m.LockedPage),
   },
 
   // ---- app (approved members) ----
@@ -70,6 +63,16 @@ export const routes: Routes = [
         path: 'polls',
         title: 'nav.polls',
         loadComponent: () => import('./pages/polls/polls').then((m) => m.PollsPage),
+      },
+      {
+        path: 'announcements',
+        title: 'nav.announcements',
+        loadComponent: () => import('./pages/announcements/announcements').then((m) => m.AnnouncementsPage),
+      },
+      {
+        path: 'lost-found',
+        title: 'nav.lostFound',
+        loadComponent: () => import('./pages/lost-found/lost-found').then((m) => m.LostFoundPage),
       },
       {
         path: 'fees',

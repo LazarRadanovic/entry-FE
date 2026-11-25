@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+  A4 "30 dana gratis" flyer. Do not open this file directly: run `npm run promo -- <url>`,
+  which fills in the QR code and the address and writes docs/promo/out/flyer-gratis.html + flyer-gratis.pdf.
+-->
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8" />
+<title>Entry: letak 30 dana gratis</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 210mm; height: 297mm; }
+  body {
+    font-family: "Noto Sans", "Segoe UI", Arial, sans-serif;
+    color: #0f172a;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    background: #fff;
+  }
+  .page { width: 210mm; height: 297mm; display: flex; flex-direction: column; overflow: hidden; }
+
+  .hero {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    color: #fff; text-align: center; padding: 14mm 14mm 16mm; position: relative; overflow: hidden;
+  }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.08);
+  }
+  .hero::before { left: -35mm; bottom: -45mm; width: 100mm; height: 100mm; }
+  .hero::after { right: -40mm; top: -40mm; width: 120mm; height: 120mm; }
+  .brand {
+    display: inline-flex; align-items: center; gap: 3mm; font-size: 14pt; font-weight: 800;
+    margin-bottom: 10mm; position: relative;
+  }
+  .brand-icon {
+    width: 10mm; height: 10mm; border-radius: 3mm; background: #fff; color: #2563eb;
+    display: flex; align-items: center; justify-content: center; font-size: 14pt; font-weight: 800;
+  }
+  .gift { font-size: 40pt; line-height: 1; position: relative; }
+  .scan-word { font-size: 60pt; line-height: 1; font-weight: 900; letter-spacing: 1pt; margin-top: 5mm; position: relative; }
+  .big {
+    font-size: 54pt; line-height: 1; font-weight: 900; letter-spacing: -1pt; margin-top: 6mm; position: relative;
+  }
+  .big .hl {
+    display: inline-block; background: #facc15; color: #0f172a; padding: 1mm 5mm; border-radius: 4mm;
+    transform: rotate(-2deg);
+  }
+
+  .scan { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .qr { width: 92mm; height: 92mm; }
+  .qr svg { width: 100%; height: 100%; display: block; }
+  .hint { margin-top: 6mm; font-size: 18pt; font-weight: 800; }
+  .url { margin-top: 2mm; font-size: 13pt; color: #475569; }
+
+  .foot { padding: 0 14mm 9mm; text-align: center; font-size: 11pt; color: #64748b; }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="brand"><span class="brand-icon">E</span>Entry</div>
+    <p class="gift">🎁</p>
+    <p class="scan-word">SKENIRAJ</p>
+    <p class="big"><span class="hl">ZA NAGRADE</span></p>
+  </section>
+
+  <section class="scan">
+    <div class="qr">{{QR_SVG}}</div>
+    <p class="hint">Skenirajte kamerom telefona</p>
+    <p class="url">{{URL_TEXT}}</p>
+  </section>
+
+  <footer class="foot">Entry · aplikacija za stanare vašeg ulaza · bez obaveze plaćanja</footer>
+</div>
+</body>
+</html>

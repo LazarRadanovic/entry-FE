@@ -133,7 +133,7 @@ export class BillingPage implements OnInit {
       this.api.syncBilling().subscribe({
         next: (b) => {
           this.billing.billing.set(b);
-          this.toast.success(translate(b.accessAllowed ? 'billing.thanks' : 'billing.finishing'));
+          this.toast.success(translate(!b.readOnly ? 'billing.thanks' : 'billing.finishing'));
           this.router.navigate([], { queryParams: {}, replaceUrl: true });
         },
         error: (e) => this.toast.error(errorMessage(e)),

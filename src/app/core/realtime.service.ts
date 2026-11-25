@@ -45,7 +45,7 @@ export class RealtimeService {
     return this.stomp.watch(destination).pipe(map((m) => JSON.parse(m.body) as RealtimeEvent<T>));
   }
 
-  /** {@code name}: feed | chat | polls | presence */
+  /** {@code name}: feed | chat | polls | announcements | lost-found | presence | fees */
   entrance<T>(name: string): Observable<RealtimeEvent<T>> {
     const entranceId = this.auth.user()?.entrance.id;
     return this.watch<T>(`/topic/entrance/${entranceId}/${name}`);

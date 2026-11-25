@@ -1,5 +1,5 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
 import { I18nKey, I18nService, TranslatePipe, hasSavedLang } from '../../core/i18n/i18n';
 import { LangSwitch } from '../../shared/lang-switch';
@@ -15,9 +15,15 @@ type Icon = 'board' | 'chat' | 'vote' | 'costs' | 'tools' | 'bell';
   imports: [RouterLink, TranslatePipe, LangSwitch],
   templateUrl: './welcome.html',
   styleUrl: './welcome.css',
+  host: { '(document:keydown.escape)': 'prize.set(false)' },
 })
 export class WelcomePage {
   protected readonly auth = inject(AuthService);
+
+  /** "You won 30 days free" popup: only for visitors who scanned the gratis flyer (?src=gratis) and aren't logged in. */
+  protected readonly prize = signal(
+    inject(ActivatedRoute).snapshot.queryParamMap.get('src') === 'gratis' && !this.auth.isLoggedIn(),
+  );
 
   protected readonly features: { icon: Icon; title: I18nKey; text: I18nKey }[] = [
     { icon: 'board', title: 'welcome.f.board', text: 'welcome.f.boardText' },

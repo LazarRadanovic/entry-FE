@@ -41,6 +41,20 @@ export function notificationText(n: AppNotification): {
       const bold = Number.isFinite(days) ? translatePlural('notif.trialDays', days) : (n.preview ?? '');
       return t('⏳', translate('notif.trialBefore'), bold, translate('notif.trialAfter'), '/billing');
     }
+    case 'NEW_ANNOUNCEMENT': {
+      // preview from the backend: "1.12.–5.12. · 08:00–16:00" or "6.12. · all day"
+      const when = (n.preview ?? '').replace('all day', translate('ann.allDay'));
+      const apt = n.actor?.apartment ?? '?';
+      return t('📢', '', fullName(n), translate('notif.announcement', { apt, when }), '/announcements');
+    }
+    case 'NEW_LOST_FOUND': {
+      // preview from the backend: "FOUND: title" / "LOST: title"
+      const [kind, ...rest] = (n.preview ?? '').split(': ');
+      const title = rest.join(': ');
+      return t('🔑', '', fullName(n), translate(kind === 'LOST' ? 'notif.lostItem' : 'notif.foundItem', { title }), '/lost-found');
+    }
+    case 'LOST_FOUND_RESPONSE':
+      return t('🙋', '', fullName(n), translate('notif.lostFoundResponse', { title: n.preview ?? '' }), '/lost-found');
     case 'MEMBERSHIP_APPROVED':
       return t(
         '✅',
